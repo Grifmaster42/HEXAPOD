@@ -90,12 +90,12 @@ class Leg:
         self.motors[2].setDesiredJointAngle([goalAngle[2]])
         return goalAngle
 
-    def convert(self, pos, add=False):
+    @staticmethod
+    def convert(pos, add=False):
         if add:
             return [pos[0], pos[1], pos[2], 1]
         else:
             return pos[:-1]
-
 
     #Zu Testzwecken im Plotter
     def testCreateAi(self, a, alpha, d, theta):

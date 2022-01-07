@@ -1,6 +1,6 @@
 class Leg:
     gotPoint = False
-    def __init__(self,lange,offset,rotation):
+    def __init__(self,lange,offset,rotation,a,b):
         self.offset = offset
         self.x = offset[0]
         self.y = offset[1]
@@ -31,4 +31,11 @@ class Leg:
     
     def getPosition(self):
         return self.nextPoint
+
+    @staticmethod
+    def convert(pos, add=False):
+        if add:
+            return [pos[0], pos[1], pos[2], 1]
+        else:
+            return pos[:-1]
         

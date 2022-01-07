@@ -18,8 +18,9 @@ import numpy as np
 
 # -------------------------Py Scripts-------------------------<
 import ROB.HexaplotSender as hxpS
-import LEG.Leg as Leg
-import ZMQ.server
+import ROB.Leg_Rob as Leg
+import ROB.Rob
+import ZMQ.server as server
 
 # Für das Senden der Fußpunkte an die Hexapod-Simulation
 # Für die Steuerung der sechs Beine (Dummy-Klasse)
@@ -39,39 +40,46 @@ class Robot:
         self.debug = False
         self.simulation = True
 
+        self.height = 0.09
+        """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 9cm) """
         # ---------------------Class Objects----------------------
 
         self.sv = server.Server()
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
-        [[0.160, 0.087], [0.160, -0.087], [0, 0.1615], [-0.160, -0.087], [-0.160, 0.087], [0, -0.1615]]
+
         # Leg 1
         self.leg_v_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, 0.032], 0, [14,16,18],[math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein vorne rechts, mit den Offset Koordinaten  (7, 8.5, 0). """
-        self.offset_v_r = [0.160, 0.087]
+        self.offset_v_r = [0.160, 0.087, -self.height]
 
         # Leg 2
         self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, -0.032], 0, [13,15,17],[-math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein vorne links,  mit den Offset Koordinaten  (3, 8.5, 0). """
+        self.offset_v_l = [0.160, -0.087, -self.height]
 
 
         # Leg 3
         self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.0445], math.pi/2, [7,9,11],[0,0,math.pi/2])
         """ Beinobjekt für das Bein mitte links,  mit den Offset Koordinaten  (1,   5, 0). """
+        self.offset_m_l = [0, -0.1615, -self.height]
 
 
         # leg 4
         self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, -0.032], math.pi, [1,3,5],[math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein hinten links, mit den Offset Koordinaten  (3, 1.5, 0). """
+        self.offset_h_l = [-0.160, -0.087, -self.height]
 
 
         # leg 5
         self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, 0.032], math.pi, [2,4,6],[-math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein hinten rechts, mit den Offset Koordinaten (7, 1.5, 0). """
+        self.offset_h_r = [-0.160, 0.087, -self.height]
 
 
         # Leg 6
         self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.0445], -math.pi/2, [8,10,12],[0,0,math.pi/2])
         """ Beinobjekt für das Bein mitte rechts, mit den Offset Koordinaten  (9,   5, 0). """
+        self.offset_m_r = [0, 0.1615, -self.height]
 
 
         if self.simulation:
@@ -102,8 +110,6 @@ class Robot:
 
         self.cycle_time = 0.4
         """ Zykluszeit für die Abfrage auf neue Befehle. (Defaultwert = 400ms) """
-        self.height = 0.071
-        """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 15.1cm) """
         self.pace_type = "Dreieck"
         """ Gangart des Roboters. (Defaultgangart = Dreieck) """
         self.speed = 1
@@ -124,17 +130,17 @@ class Robot:
         Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Clienten verarbeitet.
         """
         for legs in self.group_a:
-            legs.setPosition(self.leg_v_l.convert([0, 0, self.height], True))
+            legs.setPosition(LEG.Leg.convert([0, 0, self.height], True))
         for legs in self.group_b:
-            legs.setPosition(self.leg_v_l.convert([0, 0, 0], True))
+            legs.setPosition(LEG.Leg.convert([0, 0, 0], True))
         if self.simulation:
             print(self.leg_v_l.getPosition())
-            self.sender.send_points([[self.leg_v_l.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
-                                     [self.leg_v_l.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
-                                     [self.leg_v_l.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
-                                     [self.leg_v_l.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
-                                     [self.leg_v_l.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
-                                     [self.leg_v_l.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
+            self.sender.send_points([[LEG.Leg.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
+                                     [LEG.Leg.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
+                                     [LEG.Leg.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
+                                     [LEG.Leg.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
+                                     [LEG.Leg.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
+                                     [LEG.Leg.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
 
         schwingpunkt = 0
         while 1:
@@ -177,16 +183,16 @@ class Robot:
 
             stemmpunkt = int(stemmpunkt)
             for legs in self.group_a:
-                legs.setPosition(self.leg_v_l.convert(self.traj[schwingpunkt], True))
+                legs.setPosition(LEG.Leg.convert(self.traj[schwingpunkt], True))
             for legs in self.group_b:
-                legs.setPosition(self.leg_v_l.convert(self.traj[stemmpunkt], True))
+                legs.setPosition(LEG.Leg.convert(self.traj[stemmpunkt], True))
             if self.simulation:
-                self.sender.send_points([[self.leg_v_l.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
-                                         [self.leg_v_l.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
-                                         [self.leg_v_l.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
-                                         [self.leg_v_l.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
-                                         [self.leg_v_l.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
-                                         [self.leg_v_l.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
+                self.sender.send_points([[LEG.Leg.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
+                                         [LEG.Leg.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
+                                         [LEG.Leg.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
+                                         [LEG.Leg.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
+                                         [LEG.Leg.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
+                                         [LEG.Leg.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
 
             schwingpunkt += 1
             t_end = perf_counter()
@@ -226,6 +232,13 @@ class Robot:
                                [0, 0, 1]])
         return rz_matrix
 
+    @staticmethod
+    def go_to(offset,xyz):
+        new_xyz = offset
+        for i in range(0,len(offset)):
+            new_xyz[i] += xyz[i]
+        return Leg.Leg.convert(new_xyz, True)
+
     def set_direction(self, org_traj, angle):
         """
         set_direction(Org_traj: List(), angle: float) -> numpy.matrix()
@@ -252,10 +265,15 @@ class Robot:
             print(typ)
         return command  # [Geschwindigkeit, Winkel,Gangart]
 
-    def startup(self):
-        self.leg_v_l.motors[0].setDesiredJointAngle()
+    def test(self):
+        print(-self.height)
+        print(self.go_to([1,2,3],[1,2,3]))
+        print([1,2,3]+[1])
+        print(Robot.go_to([1,2,3],[0,2,3]))
+        Leg.Leg.convert([0, 0, self.height], True)
 
 
 if __name__ == "__main__":
     rob = Robot()
-    rob.iterate()
+    rob.test()
+    # rob.iterate()
