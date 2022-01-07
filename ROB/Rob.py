@@ -275,5 +275,5 @@ class Robot:
 
 if __name__ == "__main__":
     rob = Robot()
-    rob.test()
-    # rob.iterate()
+    # rob.test()
+    rob.iterate()
