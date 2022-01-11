@@ -91,7 +91,8 @@ class Leg:
         return goalAngle
 
     #Gibt die Gelenkposition im Base-KS an. In pos werden die Plotter-Methoden unten verwendet (z.B. getPosAlpha())
-    def getJointPosition(self, pos[0, 0, 0, 1])
+    def getJointPosition(self, Ai[0, 0, 0, 1])
+        pos = Ai[:, -1]
         H = np.array([
             [math.cos(self.rotation), -math.sin(self.rotation), 0, self.offset[0]],
             [math.sin(self.rotation), math.cos(self.rotation), 0, self.offset[1]],
