@@ -48,36 +48,36 @@ class Robot:
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
 
         # Leg 1
-        self.leg_v_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, 0.032], 0, [14,16,18],[math.pi/4,0,math.pi/2])
+        self.leg_v_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.160, 0.087, -self.height], 0, [14,16,18],[math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein vorne rechts, mit den Offset Koordinaten  (7, 8.5, 0). """
         self.offset_v_r = [0.160, 0.087, -self.height]
 
         # Leg 2
-        self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, -0.032], 0, [13,15,17],[-math.pi/4,0,math.pi/2])
+        self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.160, -0.087, -self.height], 0, [13,15,17],[-math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein vorne links,  mit den Offset Koordinaten  (3, 8.5, 0). """
         self.offset_v_l = [0.160, -0.087, -self.height]
 
 
         # Leg 3
-        self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.0445], math.pi/2, [7,9,11],[0,0,math.pi/2])
+        self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.1615, -self.height], math.pi/2, [7,9,11],[0,0,math.pi/2])
         """ Beinobjekt für das Bein mitte links,  mit den Offset Koordinaten  (1,   5, 0). """
         self.offset_m_l = [0, -0.1615, -self.height]
 
 
         # leg 4
-        self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, -0.032], math.pi, [1,3,5],[math.pi/4,0,math.pi/2])
+        self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.160, -0.087, -self.height], math.pi, [1,3,5],[math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein hinten links, mit den Offset Koordinaten  (3, 1.5, 0). """
         self.offset_h_l = [-0.160, -0.087, -self.height]
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, 0.032], math.pi, [2,4,6],[-math.pi/4,0,math.pi/2])
+        self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.160, 0.087, -self.height], math.pi, [2,4,6],[-math.pi/4,0,math.pi/2])
         """ Beinobjekt für das Bein hinten rechts, mit den Offset Koordinaten (7, 1.5, 0). """
         self.offset_h_r = [-0.160, 0.087, -self.height]
 
 
         # Leg 6
-        self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.0445], -math.pi/2, [8,10,12],[0,0,math.pi/2])
+        self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.1615, -self.height], -math.pi/2, [8,10,12],[0,0,math.pi/2])
         """ Beinobjekt für das Bein mitte rechts, mit den Offset Koordinaten  (9,   5, 0). """
         self.offset_m_r = [0, 0.1615, -self.height]
 
@@ -104,8 +104,7 @@ class Robot:
         self.traj_rechteck = [[1, 0, 1], [1, 0, 0], [0.5, 0, 0], [0, 0, 0],
                               [-0.5, 0, 0], [-1, 0, 0], [-1, 0, 1], [0, 0, 1]]
 
-        self.traj_fast = [[1, 0, 0.5], [0.5, 0, 0.5],
-                          [0, 0, 0.5], [-0.5, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]]
+        self.traj_fast = [[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]]
         """ Trajektorienliste, für die Fußpunkte von einem Bein, ausgehend vom Ursprung (Defaultgangart = Parabelform) """
 
         self.cycle_time = 0.4
@@ -119,7 +118,7 @@ class Robot:
 
         #TODO
         # - Geschwindigkeit an Servo
-        # - Arbeitsradius experimentell bestimmen
+        # - (Arbeitsradius experimentell bestimmen)
 
     # -------------------------Methods-----------------------------
     def iterate(self):
@@ -130,17 +129,17 @@ class Robot:
         Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Clienten verarbeitet.
         """
         for legs in self.group_a:
-            legs.setPosition(LEG.Leg.convert([0, 0, self.height], True))
+            legs.setPosition(legs.getOffset()[0:-2]+[0,1])
         for legs in self.group_b:
-            legs.setPosition(LEG.Leg.convert([0, 0, 0], True))
+            legs.setPosition(legs.getOffset()[0:-2]+[-self.height,1])
         if self.simulation:
             print(self.leg_v_l.getPosition())
-            self.sender.send_points([[LEG.Leg.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
-                                     [LEG.Leg.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
-                                     [LEG.Leg.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
-                                     [LEG.Leg.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
-                                     [LEG.Leg.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
-                                     [LEG.Leg.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
+            self.sender.send_points([[self.leg_v_r.getPosition()[0:-1], [0.033 ,0.032  ,0]],
+                                     [self.leg_v_l.getPosition()[0:-1], [0.033 ,-0.032 ,0]],
+                                     [self.leg_m_l.getPosition()[0:-1], [0.0   ,-0.0445,0]],
+                                     [self.leg_h_l.getPosition()[0:-1], [-0.033,-0.032 ,0]],
+                                     [self.leg_h_r.getPosition()[0:-1], [-0.033,0.032  ,0]],
+                                     [self.leg_m_r.getPosition()[0:-1], [0.0   ,0.0445 ,0]]])
 
         schwingpunkt = 0
         while 1:
@@ -161,12 +160,13 @@ class Robot:
                     else:
                         self.traj = self.traj_dreieck
                         self.pace_type = "Dreieck"
+                    if schwingpunkt != 0:
+                        schwingpunkt = int(len(self.traj) / 2)
                     self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height)
-                    for legs in self.all_legs:
-                       legs.motors[0].setSpeedValue(40)
-                       legs.motors[1].setSpeedValue(40)
-                       legs.motors[2].setSpeedValue(40)
-
+                    # for legs in self.all_legs:
+                    #    legs.motors[0].setSpeedValue(40)
+                    #    legs.motors[1].setSpeedValue(40)
+                    #    legs.motors[2].setSpeedValue(40)
                     self.traj = self.set_direction(self.traj, angle)
                     if self.debug:
                         print(self.traj)
@@ -183,16 +183,16 @@ class Robot:
 
             stemmpunkt = int(stemmpunkt)
             for legs in self.group_a:
-                legs.setPosition(LEG.Leg.convert(self.traj[schwingpunkt], True))
+                legs.setPosition(self.go_to(legs.getOffset()[0:-1],self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
-                legs.setPosition(LEG.Leg.convert(self.traj[stemmpunkt], True))
+                legs.setPosition(self.go_to(legs.getOffset()[0:-1],self.traj[stemmpunkt])+[1])
             if self.simulation:
-                self.sender.send_points([[LEG.Leg.convert(self.leg_v_l.getPosition()), [0.033,-0.032,self.height]],
-                                         [LEG.Leg.convert(self.leg_v_r.getPosition()), [0.033,0.032,self.height]],
-                                         [LEG.Leg.convert(self.leg_m_l.getPosition()), [0.0,-0.0445,self.height]],
-                                         [LEG.Leg.convert(self.leg_h_l.getPosition()), [-0.033,-0.032,self.height]],
-                                         [LEG.Leg.convert(self.leg_h_r.getPosition()), [-0.033,0.032,self.height]],
-                                         [LEG.Leg.convert(self.leg_m_r.getPosition()), [0.0,0.0445,self.height]]])
+                self.sender.send_points([[self.leg_v_r.getPosition()[0:-1], [0.033 ,0.032  ,0]],
+                                         [self.leg_v_l.getPosition()[0:-1], [0.033 ,-0.032 ,0]],
+                                         [self.leg_m_l.getPosition()[0:-1], [0.0   ,-0.0445,0]],
+                                         [self.leg_h_l.getPosition()[0:-1], [-0.033,-0.032 ,0]],
+                                         [self.leg_h_r.getPosition()[0:-1], [-0.033,0.032  ,0]],
+                                         [self.leg_m_r.getPosition()[0:-1], [0.0   ,0.0445 ,0]]])
 
             schwingpunkt += 1
             t_end = perf_counter()
@@ -213,7 +213,6 @@ class Robot:
         traj = cp.deepcopy(org_traj)
         if offset is None:
             offset = [0, 0, 0]
-        print(offset)
         for point in traj:
             point[0] = point[0] * length + offset[0]
             point[1] = point[1] * length + offset[1]
@@ -231,13 +230,6 @@ class Robot:
                                [math.sin(teta), math.cos(teta), 0],
                                [0, 0, 1]])
         return rz_matrix
-
-    @staticmethod
-    def go_to(offset,xyz):
-        new_xyz = offset
-        for i in range(0,len(offset)):
-            new_xyz[i] += xyz[i]
-        return Leg.Leg.convert(new_xyz, True)
 
     def set_direction(self, org_traj, angle):
         """
@@ -265,12 +257,19 @@ class Robot:
             print(typ)
         return command  # [Geschwindigkeit, Winkel,Gangart]
 
+    @staticmethod
+    def go_to(offset,xyz):
+        new_xyz = offset
+        for i in range(0,len(offset)):
+            new_xyz[i] += xyz[i]
+        return new_xyz
+
     def test(self):
         print(-self.height)
-        print(self.go_to([1,2,3],[1,2,3]))
-        print([1,2,3]+[1])
-        print(Robot.go_to([1,2,3],[0,2,3]))
-        Leg.Leg.convert([0, 0, self.height], True)
+        print(self.go_to([1,2,3],[1,2,3])+[1])
+        print([1,2,3])
+        print(self.go_to([1,2,3],[0,2,3]))
+        print(self.leg_v_l.getPosition()[0:-1])
 
 
 if __name__ == "__main__":

@@ -36,7 +36,7 @@ class HexaplotSender:
                 y = points[1] + random.random() * fac
                 z = points[2] + random.random() * fac
                 newPoints.append((x, y, z))
-            self.send_points(newPoints)
+            self.send_points([newPoints,newPoints])
             time.sleep(sleep)
 
     def setNewTraj(self, traj):
@@ -90,4 +90,4 @@ if __name__ == "__main__":
 
     # hps.random_dot(sleep=0.5)
     # hps.leg()
-    # hps.walk()
+    hps.walk()

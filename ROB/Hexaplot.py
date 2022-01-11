@@ -14,15 +14,17 @@ import mpl_toolkits.mplot3d.art3d as art3d
 
 class Hexaplot:
 
-    def __init__(self,hex_coord, ax_limits=None, plt_pause_value=0.05, dot_color='white', line_color='black', show_lines=False):
+    def __init__(self, height,hex_coord, ax_limits=None, plt_pause_value=0.05, dot_color='white', line_color='black', show_lines=False):
         self.hex_coord = hex_coord
-        self.height = 0.151
+        self.height = height
 
         if ax_limits is None:
             ax_limits = [10, 10, 2]
         self.hr = HexaplotReceiver()
         self.ax_limits = ax_limits
         self.fig = plt.figure()
+
+        self.fig.canvas.manager.window.attributes('-topmost', 0)
         self.ax = self.fig.add_subplot(111, projection='3d')
         #self.ax2 = self.fig.add_subplot(122)
 
@@ -114,8 +116,7 @@ class Hexaplot:
             if data != None:
                 formatted_data = []
                 for line in data:
-                    formatted_data.append([[line[0][0] * 100, line[0][1] * 100, line[0][2] * 100], [line[1][0] * 100, line[1][1] * 100,
-                                                                                   line[1][2] * 100]])
+                    formatted_data.append([[line[0][0] * 100, line[0][1] * 100, line[0][2] * 100], [line[1][0] * 100, line[1][1] * 100, line[1][2] * 100]])
                 data = formatted_data
                 print(data)
                 self.plot_lines(data)
@@ -135,28 +136,33 @@ class Hexaplot:
                 x = [line[0][0], line[1][0]]
                 y = [line[0][1], line[1][1]]
                 z = [line[0][2], line[1][2]]
-                self.last_line_list.append(self.ax.plot(x, y, z, c=self.line_color))
+                self.last_line_list.append(self.ax.plot(x, y, z, c=self.line_color , linewidth=2))
                 self.last_scatter_list.append(self.ax.scatter(x[0], y[0], z[0], c=self.dot_color))
                 self.last_scatter_list.append(self.ax.scatter(x[1], y[1], z[1], c=self.dot_color))
 
 
-def plotStart():
-    hex_coord = [[0.160,0.087],[0.160, -0.087],[0, 0.1615],[-0.160,-0.087],[-0.160, 0.087],[0, -0.1615]]
+def plotStart(height):
+    height *= 100
+    hex_coord = [[0.160,0.087],[0.160, -0.087],[0, -0.1615],[-0.160,-0.087],[-0.160, 0.087],[0, 0.1615]]
+    hex_off_coord = ([0.033, 0.032],[0.033, -0.032],[0, -0.0445],[-0.033, -0.032],[-0.033, 0.032],[0, 0.0445])
     for coord in hex_coord:
         coord[0] *= 100
         coord[1] *= 100
+    for coord in hex_off_coord:
+        coord[0] *= 100
+        coord[1] *= 100
     print(hex_coord)
-    hp = Hexaplot(hex_coord, ax_limits=[20,20,15], dot_color='green', line_color='black', show_lines=True)
+    hp = Hexaplot(height,hex_coord, ax_limits=[20,20,15], dot_color='red', line_color='black', show_lines=True)
 
     # [[3,1.5],[1,5],[3,8.5],[7,1.5],[9,5],[7,8.5]]
 
     # Draw a circle on the x=0 'wall'
-    l1 = Circle(hex_coord[0],  7, alpha=0.5)
-    l2 = Circle(hex_coord[1],  7, alpha=0.5)
-    l3 = Circle(hex_coord[2],  7, alpha=0.5)
-    l4 = Circle(hex_coord[3],  7, alpha=0.5)
-    l5 = Circle(hex_coord[4],  7, alpha=0.5)
-    l6 = Circle(hex_coord[5],  7, alpha=0.5)
+    l1 = Circle(hex_coord[0],  7, alpha=0.3)
+    l2 = Circle(hex_coord[1],  7, alpha=0.3)
+    l3 = Circle(hex_coord[2],  7, alpha=0.3)
+    l4 = Circle(hex_coord[3],  7, alpha=0.3)
+    l5 = Circle(hex_coord[4],  7, alpha=0.3)
+    l6 = Circle(hex_coord[5],  7, alpha=0.3)
 
     circlesB = [l6, l3, l4, l5]
     circlesF = [l1, l2]
@@ -164,17 +170,29 @@ def plotStart():
     for circle in circlesF:
         circle.set_color("red")
         hp.ax.add_patch(circle)
-        art3d.pathpatch_2d_to_3d(circle, z=0, zdir="z")
+        art3d.pathpatch_2d_to_3d(circle, z=-height, zdir="z")
 
 
     for circle in circlesB:
         circle.set_color("green")
         hp.ax.add_patch(circle)
-        art3d.pathpatch_2d_to_3d(circle, z=0, zdir="z")
+        art3d.pathpatch_2d_to_3d(circle, z=-height, zdir="z")
 
 
-    groupA = Polygon((hex_coord[0], hex_coord[5], hex_coord[4]), alpha=0.4)
-    groupB = Polygon((hex_coord[1], hex_coord[3], hex_coord[2]), alpha=0.4)
+    groupA = Polygon((hex_coord[0], hex_coord[2], hex_coord[4]), alpha=0.2)
+    groupB = Polygon((hex_coord[1], hex_coord[3], hex_coord[5]), alpha=0.2)
+    polygons = []
+    for i in range(1,10):
+        polygons.append(Polygon(hex_off_coord))
+
+    z = -0.8
+    for polygon in polygons:
+        polygon.set_color("red")
+        polygon.set_linewidth(2)
+        hp.ax.add_patch(polygon)
+        art3d.pathpatch_2d_to_3d(polygon, z=z, zdir="z")
+        z += 0.2
+    #art3d.pathpatch_2d_to_3d(groupO, z=1, zdir="z")
 
     groups = [groupA, groupB]
 
@@ -182,9 +200,9 @@ def plotStart():
     groupB.set_color("yellow")
     for group in groups:
         hp.ax.add_patch(group)
-        art3d.pathpatch_2d_to_3d(group, z=1, zdir="z")
+        art3d.pathpatch_2d_to_3d(group, z=-height, zdir="z")
 
     hp.show_plot()
 
 if __name__ == "__main__":
-    plotStart()
+    plotStart(0.09)

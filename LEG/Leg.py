@@ -74,7 +74,7 @@ class Leg:
     def getPosition(self):
         H = np.array([
             [math.cos(self.rotation), -math.sin(self.rotation), 0, self.offset[0]],
-            [math.sin(self.rotation), math.cos(self.rotation), 0, self.offset[1]],
+            [math.sin(self.rotation),  math.cos(self.rotation), 0, self.offset[1]],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
         Hp = np.dot(H, self.forKinAlphaJoint(self.motors[0].getCurrentJointAngle(), self.motors[1].getCurrentJointAngle(), self.motors[2].getCurrentJointAngle()))
@@ -91,7 +91,7 @@ class Leg:
         return goalAngle
 
     #Gibt die Gelenkposition im Base-KS an. In pos werden die Plotter-Methoden unten verwendet (z.B. getPosAlpha())
-    def getJointPosition(self, pos[0, 0, 0, 1])
+    def getJointPosition(self, pos=[0, 0, 0, 1]):
         H = np.array([
             [math.cos(self.rotation), -math.sin(self.rotation), 0, self.offset[0]],
             [math.sin(self.rotation), math.cos(self.rotation), 0, self.offset[1]],
@@ -103,7 +103,7 @@ class Leg:
         return pos
     
     #Gibt die aktuellen(!!!) Winkel der Gelenke an
-    def getMotorAngles(self) 
+    def getMotorAngles(self):
         return [self.motors[0].getCurrentJointAngle(), self.motors[1].getCurrentJointAngle(), self.motors[2].getCurrentJointAngle()]
 
     @staticmethod
