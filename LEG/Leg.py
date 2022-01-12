@@ -90,18 +90,26 @@ class Leg:
         self.motors[2].setDesiredJointAngle([goalAngle[2]])
         return goalAngle
 
-    #Gibt die Gelenkposition im Base-KS an. In pos werden die Plotter-Methoden unten verwendet (z.B. getPosAlpha())
-    def getJointPosition(self, Ai=[0, 0, 0, 1]):
-        pos = Ai[:, -1]
+    #Gibt die Gelenkposition im Base-KS an. Mit point wird die Gelenkposition gewaehlt
+    def getJointPosition(self, point):
+        if point == 0:
+            pos = [0, 0, 0, 1]
+        elif point == 1:
+            pos = self.getPosAlpha()[:, -1]
+        elif point == 2:
+            pos = self.getPosBeta()[:, -1]
+        elif point == 3:
+            pos = self.getPosGamma()[:, -1]
+        else:
+            pos = self.getPosFoot()[:, -1]
         H = np.array([
             [math.cos(self.rotation), -math.sin(self.rotation), 0, self.offset[0]],
             [math.sin(self.rotation), math.cos(self.rotation), 0, self.offset[1]],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
         Hp = np.dot(H, pos)
-        posnp = np.add(Hp, self.servoOffset)
-        pos = [posnp[0], posnp[1], posnp[2], 1]
-        return pos
+        # return np.add(Hp, self.servoOffset)
+        return Hp
     
     #Gibt die aktuellen(!!!) Winkel der Gelenke an
     def getMotorAngles(self):
