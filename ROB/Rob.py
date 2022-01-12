@@ -18,7 +18,7 @@ import numpy as np
 
 # -------------------------Py Scripts-------------------------<
 import ROB.HexaplotSender as hxpS
-import ROB.Leg_Rob as Leg
+import LEG.LegwM as Leg
 import ROB.Rob
 import ZMQ.server as server
 
@@ -48,36 +48,36 @@ class Robot:
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
 
         # Leg 1
-        self.leg_v_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.160, 0.087, -self.height], 0, [14,16,18],[math.pi/4,0,math.pi/2])
+        self.leg_v_r = Leg.Leg(a=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], b=[0.033, 0.032],r= 0, m=[14,16,18],n=[math.pi/4,0,math.pi/2], offset_f=[0.160, 0.087, -self.height])
         """ Beinobjekt für das Bein vorne rechts, mit den Offset Koordinaten  (7, 8.5, 0). """
         self.offset_v_r = [0.160, 0.087, -self.height]
 
         # Leg 2
-        self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.160, -0.087, -self.height], 0, [13,15,17],[-math.pi/4,0,math.pi/2])
+        self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, -0.032], 0, [13,15,17],[-math.pi/4,0,math.pi/2], [0.160, -0.087, -self.height])
         """ Beinobjekt für das Bein vorne links,  mit den Offset Koordinaten  (3, 8.5, 0). """
         self.offset_v_l = [0.160, -0.087, -self.height]
 
 
         # Leg 3
-        self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.1615, -self.height], math.pi/2, [7,9,11],[0,0,math.pi/2])
+        self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.0445], 0, [7,9,11],[0,0,math.pi/2], [0, -0.1615, -self.height])
         """ Beinobjekt für das Bein mitte links,  mit den Offset Koordinaten  (1,   5, 0). """
         self.offset_m_l = [0, -0.1615, -self.height]
 
 
         # leg 4
-        self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.160, -0.087, -self.height], math.pi, [1,3,5],[math.pi/4,0,math.pi/2])
+        self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, -0.032], 0, [1,3,5],[math.pi/4,0,math.pi/2], [-0.160, -0.087, -self.height])
         """ Beinobjekt für das Bein hinten links, mit den Offset Koordinaten  (3, 1.5, 0). """
         self.offset_h_l = [-0.160, -0.087, -self.height]
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.160, 0.087, -self.height], math.pi, [2,4,6],[-math.pi/4,0,math.pi/2])
+        self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, 0.032], 0, [2,4,6],[-math.pi/4,0,math.pi/2], [-0.160, 0.087, -self.height])
         """ Beinobjekt für das Bein hinten rechts, mit den Offset Koordinaten (7, 1.5, 0). """
         self.offset_h_r = [-0.160, 0.087, -self.height]
 
 
         # Leg 6
-        self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.1615, -self.height], -math.pi/2, [8,10,12],[0,0,math.pi/2])
+        self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.0445], 0, [8,10,12],[0,0,math.pi/2], [0, 0.1615, -self.height])
         """ Beinobjekt für das Bein mitte rechts, mit den Offset Koordinaten  (9,   5, 0). """
         self.offset_m_r = [0, 0.1615, -self.height]
 
@@ -129,17 +129,19 @@ class Robot:
         Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Clienten verarbeitet.
         """
         for legs in self.group_a:
-            legs.setPosition(legs.getOffset()[0:-2]+[0,1])
+            print("XYZ: BASE-KS")
+            print("w",legs.getOffset()[:-2]+[0,1])
+            legs.setPosition(legs.getOffset()[:-2]+[0,1])
         for legs in self.group_b:
-            legs.setPosition(legs.getOffset()[0:-2]+[-self.height,1])
+            legs.setPosition(legs.getOffset()[:-2]+[-self.height,1])
         if self.simulation:
-            print(self.leg_v_l.getPosition())
-            self.sender.send_points([[self.leg_v_r.getPosition()[0:-1], [0.033 ,0.032  ,0]],
-                                     [self.leg_v_l.getPosition()[0:-1], [0.033 ,-0.032 ,0]],
-                                     [self.leg_m_l.getPosition()[0:-1], [0.0   ,-0.0445,0]],
-                                     [self.leg_h_l.getPosition()[0:-1], [-0.033,-0.032 ,0]],
-                                     [self.leg_h_r.getPosition()[0:-1], [-0.033,0.032  ,0]],
-                                     [self.leg_m_r.getPosition()[0:-1], [0.0   ,0.0445 ,0]]])
+            print("POS: ",self.leg_v_r.getPosition())
+            self.sender.send_points([[self.leg_v_r.getPosition()[:-1], [0.033, 0.032, 0]],
+                                     [self.leg_v_l.getPosition()[:-1], [0.033, -0.032, 0]],
+                                     [self.leg_m_l.getPosition()[:-1], [0.0, -0.0445, 0]],
+                                     [self.leg_h_l.getPosition()[:-1], [-0.033, -0.032, 0]],
+                                     [self.leg_h_r.getPosition()[:-1], [-0.033, 0.032, 0]],
+                                     [self.leg_m_r.getPosition()[:-1], [0.0, 0.0445, 0]]])
 
         schwingpunkt = 0
         while 1:
@@ -185,9 +187,16 @@ class Robot:
             for legs in self.group_a:
                 legs.setPosition(self.go_to(legs.getOffset()[0:-1],self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
+                print(self.go_to(legs.getOffset()[0:-1],self.traj[stemmpunkt])+[1])
                 legs.setPosition(self.go_to(legs.getOffset()[0:-1],self.traj[stemmpunkt])+[1])
             if self.simulation:
-                self.sender.send_points([[self.leg_v_r.getPosition()[0:-1], [0.033 ,0.032  ,0]],
+                pos_a = self.leg_v_r.getJointPosition(self.leg_v_r.getPosAlpha())[0:-1]
+                pos_b = self.leg_v_r.getJointPosition(self.leg_v_r.getPosBeta())[0:-1]
+                pos_c = self.leg_v_r.getJointPosition(self.leg_v_r.getPosGamma())[0:-1]
+                self.sender.send_points([[pos_c, [0.033 ,-0.032 ,0]],
+                                         [pos_b, pos_c],
+                                         [pos_a, pos_b],
+                                         [self.leg_v_r.getPosition()[0:-1], [0.033 ,0.032  ,0]],
                                          [self.leg_v_l.getPosition()[0:-1], [0.033 ,-0.032 ,0]],
                                          [self.leg_m_l.getPosition()[0:-1], [0.0   ,-0.0445,0]],
                                          [self.leg_h_l.getPosition()[0:-1], [-0.033,-0.032 ,0]],
