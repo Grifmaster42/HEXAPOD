@@ -42,6 +42,7 @@ class Leg:
         return pos
 
     def invKinAlphaJoint(self, pos=[0, 0, 0, 1]):
+
         alpha = math.atan2(pos[1], pos[0])
         footPos = np.array(pos)
         A1 = np.array([
@@ -64,12 +65,18 @@ class Leg:
     # Hilfsmethoden
     def baseCStoLegCS(self, pos=[0, 0, 0, 1]):
         noServoOffset = np.subtract(pos, self.servoOffset)
+        noServoOffset = np.subtract(noServoOffset, self.offset+[0,0])
         H = np.array([
-            [math.cos(-self.rotation), -math.sin(-self.rotation), 0, -self.offset[0]],
-            [math.sin(-self.rotation), math.cos(-self.rotation), 0, -self.offset[1]],
+            [math.cos(-self.rotation), -math.sin(-self.rotation), 0,0],
+            [math.sin(-self.rotation), math.cos(-self.rotation), 0,0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
-        pos = np.dot(H, noServoOffset)
+        # H = np.array([
+        #     [math.cos(-self.rotation), -math.sin(-self.rotation), 0, -self.offset[0]],
+        #     [math.sin(-self.rotation), math.cos(-self.rotation), 0,  -self.offset[1]],
+        #     [0, 0, 1, 0],
+        #     [0, 0, 0, 1]])
+        pos = np.dot(H, np.transpose(noServoOffset))
         return pos
 
     # Methoden für die ROB Gruppe
@@ -87,10 +94,13 @@ class Leg:
             [0, 0, 0, 1]])
         Hp = np.dot(H, self.forKinAlphaJoint(self.goalAngle[0], self.goalAngle[1], self.goalAngle[2]))
         posnp = np.add(Hp, self.servoOffset)
-        return posnp.tolist()
+        pos = [posnp[0], posnp[1], posnp[2], 1]
+        return pos
 
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1]):
+        print("Koordinatensystem: ",self.baseCStoLegCS(pos))
+
         goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
         self.goalAngle = goalAngle
         # self.motors[0].setDesiredJointAngle([goalAngle[0]])
@@ -99,17 +109,25 @@ class Leg:
         return goalAngle
 
     # Gibt die Gelenkposition im Base-KS an. In pos werden die Plotter-Methoden unten verwendet (z.B. getPosAlpha())
-    def getJointPosition(self, ai=[0, 0, 0, 1]):
-        pos = ai[:, -1]
+    def getJointPosition(self, point):
+        if point == 0:
+            pos = [0, 0, 0, 1]
+        elif point == 1:
+            pos = self.getPosAlpha()[:, -1]
+        elif point == 2:
+            pos = self.getPosBeta()[:, -1]
+        elif point == 3:
+            pos = self.getPosGamma()[:, -1]
+        else:
+            pos = self.getPosFoot()[:, -1]
         H = np.array([
             [math.cos(self.rotation), -math.sin(self.rotation), 0, self.offset[0]],
             [math.sin(self.rotation), math.cos(self.rotation), 0, self.offset[1]],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
         Hp = np.dot(H, pos)
-        posnp = np.add(Hp, self.servoOffset)
-        pos = [posnp[0], posnp[1], posnp[2], 1]
-        return pos
+        # return np.add(Hp, self.servoOffset)
+        return Hp.tolist()
 
     # Gibt die aktuellen(!!!) Winkel der Gelenke an
     # def getMotorAngles(self):

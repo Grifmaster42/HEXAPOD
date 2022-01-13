@@ -39,14 +39,6 @@ class Hexaplot:
         self.ax.grid(False)
 
 
-
-        # Setting the axes properties
-        #self.ax2.set_xlim([-1.7, 1.7])
-        #self.ax2.set_xlabel('X')
-        #self.ax2.set_ylim([0, 1.2])
-        #self.ax2.set_ylabel('Y')
-
-
         # Get rid of the ticks
         self.ax.axes.get_xaxis().set_ticks([])
         self.ax.axes.get_yaxis().set_ticks([])
@@ -62,8 +54,6 @@ class Hexaplot:
         self.ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
         self.ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 
-        #self.ax2.spines['top'].set_visible(False)
-        #self.ax2.spines['right'].set_visible(False)
 
         self.center_x_offset = 0
         self.center_y_offset = 0

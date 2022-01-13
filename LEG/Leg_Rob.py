@@ -1,7 +1,7 @@
 class Leg:
     gotPoint = False
-    def __init__(self,lange,offset,rotation,a,b):
-        self.offset = offset
+    def __init__(self,lange,offset,rotation,a,b,kp):
+        self.offset = kp
         self.x = offset[0]
         self.y = offset[1]
         self.z = 0
@@ -18,7 +18,7 @@ class Leg:
             self.x = self.x
             self.y = offset[1] + lange[0] + lange[2] + lange[3] + lange[5]
         self.nextPoint = [self.x,self.y,self.z]
-        self.z2 = offset[2]
+        self.z2 = kp[2]
 
     def setPosition(self,coord):
         self.nextPoint = coord[0:-1]
