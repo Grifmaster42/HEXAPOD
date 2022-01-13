@@ -99,7 +99,6 @@ class Leg:
 
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1]):
-        print("Koordinatensystem: ",self.baseCStoLegCS(pos))
 
         goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
         self.goalAngle = goalAngle

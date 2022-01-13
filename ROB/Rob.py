@@ -37,11 +37,14 @@ class Robot:
         Konstruktor der Klasse robot()
         """
 
+        self.debug = cn.robot['debug']
+        #print(cn.robot['debug'])
+        self.simulation = cn.robot['simulation']
 
-        self.debug = False
-        self.simulation = True
+        self.height_top = cn.robot['height_top']
+        """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 14,5cm) """
 
-        self.height = 0.145
+        self.height_bot = cn.robot['height_bot']
         """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 14,5cm) """
         # ---------------------Class Objects----------------------
 
@@ -49,32 +52,32 @@ class Robot:
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
 
         # Leg 1
-        self.leg_v_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, -0.032], 0, [14,16,18], [math.pi/4,0,math.pi/2], [0.160, -0.087, -self.height])
-        """ Beinobjekt für das Bein vorne rechts, mit den Offset Koordinaten  (7, 8.5, 0). """
+        self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'], cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'])
+        """ Beinobjekt für das Bein vorne rechts. """
 
         # Leg 2
-        self.leg_v_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0.033, 0.032], 0, [13,15,17],[-math.pi/4,0,math.pi/2], [0.160, 0.087, -self.height])
-        """ Beinobjekt für das Bein vorne links,  mit den Offset Koordinaten  (3, 8.5, 0). """
+        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'])
+        """ Beinobjekt für das Bein vorne links. """
 
 
         # Leg 3
-        self.leg_m_l = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, 0.0445], math.pi/2, [7,9,11],[0,0,math.pi/2], [0, 0.1615, -self.height])
-        """ Beinobjekt für das Bein mitte links,  mit den Offset Koordinaten  (1,   5, 0). """
+        self.leg_m_l = Leg.Leg(cn.leg_m_l['measures'], cn.leg_m_l['offset'], cn.leg_m_l['rotation'], cn.leg_m_l['motorId'], cn.leg_m_l['angle'], cn.leg_m_l['startup'])
+        """ Beinobjekt für das Bein mitte links. """
 
 
         # leg 4
-        self.leg_h_l = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, 0.032], math.pi, [1,3,5],[math.pi/4,0,math.pi/2], [-0.160, 0.087, -self.height])
-        """ Beinobjekt für das Bein hinten links, mit den Offset Koordinaten  (3, 1.5, 0). """
+        self.leg_h_l = Leg.Leg(cn.leg_h_l['measures'], cn.leg_h_l['offset'], cn.leg_h_l['rotation'], cn.leg_h_l['motorId'], cn.leg_h_l['angle'], cn.leg_h_l['startup'])
+        """ Beinobjekt für das Bein hinten links. """
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg([0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [-0.033, -0.032], math.pi, [2,4,6],[-math.pi/4,0,math.pi/2], [-0.160, -0.087, -self.height])
-        """ Beinobjekt für das Bein hinten rechts, mit den Offset Koordinaten (7, 1.5, 0). """
+        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'])
+        """ Beinobjekt für das Bein hinten rechts. """
 
 
         # Leg 6
-        self.leg_m_r = Leg.Leg([0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092], [0, -0.0445], -math.pi/2, [8,10,12],[0,0,math.pi/2], [0, -0.1615, -self.height])
-        """ Beinobjekt für das Bein mitte rechts, mit den Offset Koordinaten  (9,   5, 0). """
+        self.leg_m_r = Leg.Leg(cn.leg_m_r['measures'], cn.leg_m_r['offset'], cn.leg_m_r['rotation'], cn.leg_m_r['motorId'], cn.leg_m_r['angle'], cn.leg_m_r['startup'])
+        """ Beinobjekt für das Bein mitte rechts. """
 
 
         if self.simulation:
@@ -92,27 +95,23 @@ class Robot:
 
 
         self.traj = []
+        self.traj_triangle  = cn.robot['triangle']
+        self.traj_rectangle = cn.robot['rectangle']
+        self.traj_fast      = cn.robot['fast']
 
-        self.traj_triangle  = [[0.5, 0, 0.5], [1, 0, 0], [0.5, 0, 0],
-                              [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-0.5, 0, 0.5], [0, 0, 1]]
 
-        self.traj_rectangle = [[1, 0, 1], [1, 0, 0], [0.5, 0, 0], [0, 0, 0],
-                              [-0.5, 0, 0], [-1, 0, 0], [-1, 0, 1], [0, 0, 1]]
-
-        self.traj_fast      = [[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]]
-        """ Trajektorienliste, für die Fußpunkte von einem Bein, ausgehend vom Ursprung (Defaultgangart = Parabelform) """
-
-        self.cycle_time = 0.4
+        self.cycle_time     = cn.robot['cycle_time']
         """ Zykluszeit für die Abfrage auf neue Befehle. (Defaultwert = 400ms) """
-        self.speed      = 1
+        self.speed          = cn.robot['speed']
         """ Geschwindigkeit mit der sich der Roboter bewegen soll. (Defaultgeschwindigkeit = 0.4) """
-        self.radius     = 0.05
+        self.radius         = cn.robot['radius']
         """ Radius vom Arbeitsbereich eines Beines. (Defaultradius = 5cm) """
-        lines = []
-        for legs in self.all_legs:
-            for i in range(1, 4):
-                lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
-        self.sender.send_points(lines)
+        if self.simulation:
+            lines = []
+            for legs in self.all_legs:
+                for i in range(1, 4):
+                    lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
+            self.sender.send_points(lines)
         #TODO
         # - Geschwindigkeit an Servo
         # - (Arbeitsradius experimentell bestimmen)
@@ -130,8 +129,8 @@ class Robot:
             legs.setPosition(legs.getOffset()[:-1]+[1])
             print("POS: ",legs.getPosition())
         for legs in self.group_b:
-            print("Offset: ",legs.getOffset()[:-2]+[-0.12,1])
-            legs.setPosition(legs.getOffset()[:-2]+[-0.12,1])
+            print("Offset: ",legs.getOffset()[:-2]+[-self.height_bot,1])
+            legs.setPosition(legs.getOffset()[:-2]+[-self.height_bot,1])
             print("POS: ",legs.getPosition())
         if self.simulation:
             # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
@@ -164,7 +163,7 @@ class Robot:
                         self.traj = self.traj_triangle
                     if schwingpunkt != 0:
                         schwingpunkt = int(len(self.traj) / 2)
-                    self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height)
+                    self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height_bot)
                     # for legs in self.all_legs:
                     #    legs.motors[0].setSpeedValue(40)
                     #    legs.motors[1].setSpeedValue(40)
@@ -187,12 +186,8 @@ class Robot:
             for legs in self.group_a:
                 legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
-                print("old:  ",legs.getPosition()[:-1])
-                print("step: ",self.traj[stemmpunkt])
-                print("new:  ",self.go_to(legs.getOffset()[:-1],self.traj[stemmpunkt])+[1])
                 legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[stemmpunkt])+[1])
             if self.simulation:
-                print("POS: ", self.leg_v_r.getPosition())
                 # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
                 #                          [self.leg_v_l.getPosition()[:-1], self.leg_v_l.getJointPosition(0)[:-1]],
                 #                          [self.leg_m_l.getPosition()[:-1], self.leg_m_l.getJointPosition(0)[:-1]],
@@ -201,7 +196,7 @@ class Robot:
                 #                          [self.leg_m_r.getPosition()[:-1], self.leg_m_r.getJointPosition(0)[:-1]]])
                 lines = []
                 for legs in self.all_legs:
-                    for i in range(0, 4):
+                    for i in range(1, 4):
                         lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
                 self.sender.send_points(lines)
 
@@ -276,7 +271,7 @@ class Robot:
         return new_xyz
 
     def test(self):
-        print(-self.height)
+        print(-self.height_top)
         print(self.go_to([1,2,3],[1,2,3])+[1])
         print([1,2,3])
         print(self.go_to([1,2,3],[0,2,3]))
