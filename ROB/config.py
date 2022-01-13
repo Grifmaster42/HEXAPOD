@@ -7,14 +7,15 @@ import math
 robot = dict(
     debug      = False,
     simulation = True ,
-    height_top = 0.14,
-    height_bot = 0.08 ,
+    height_top = 0.14 ,
+    height_bot = 0.065,
     cycle_time = 0.4  ,
     speed      = 1    ,
-    radius     = 0.06 ,
+    radius     = 0.07 ,
     triangle   = [[0.5, 0, 0.5], [1, 0, 0], [0.5, 0, 0], [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-0.5, 0, 0.5], [0, 0, 1]],
     rectangle  = [[1, 0, 1], [1, 0, 0], [0.5, 0, 0], [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-1, 0, 1], [0, 0, 1]],
-    fast       = [[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]]
+    fast       = [[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]],
+    plot_trio  = False
 )
 
 

@@ -37,15 +37,14 @@ class Robot:
         Konstruktor der Klasse robot()
         """
 
-        self.debug = cn.robot['debug']
-        #print(cn.robot['debug'])
+        self.debug      = cn.robot['debug']
         self.simulation = cn.robot['simulation']
 
         self.height_top = cn.robot['height_top']
-        """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 14,5cm) """
+        """ Höhe für die Berechnung der Trajektorienpunkte. """
 
         self.height_bot = cn.robot['height_bot']
-        """ Höhe für die Berechnung der Trajektorienpunkte. (Defaultwert = 14,5cm) """
+        """ Höhe für die Berechnung der Trajektorienpunkte. """
         # ---------------------Class Objects----------------------
 
         self.sv = server.Server()
@@ -163,15 +162,19 @@ class Robot:
                         self.traj = self.traj_triangle
                     if schwingpunkt != 0:
                         schwingpunkt = int(len(self.traj) / 2)
+                    print("1",self.traj[0])
                     self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height_bot)
+                    print("2",self.traj[0])
                     # for legs in self.all_legs:
                     #    legs.motors[0].setSpeedValue(40)
                     #    legs.motors[1].setSpeedValue(40)
                     #    legs.motors[2].setSpeedValue(40)
                     self.traj = self.set_direction(self.traj, angle)
+                    print("3",self.traj[0])
                     if self.debug:
                         print(self.traj)
                     self.traj = self.traj.tolist()
+                    print("4",self.traj[0])
                 else:
                     continue
             elif schwingpunkt == len(self.traj):
@@ -184,6 +187,7 @@ class Robot:
 
             stemmpunkt = int(stemmpunkt)
             for legs in self.group_a:
+                print(self.go_to(legs.getOffset()[:-1],self.traj[schwingpunkt])+[1])
                 legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
                 legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[stemmpunkt])+[1])
@@ -265,7 +269,7 @@ class Robot:
 
     @staticmethod
     def go_to(offset,xyz):
-        new_xyz = offset
+        new_xyz = cp.deepcopy(offset)
         for i in range(0,len(offset)):
             new_xyz[i] += xyz[i]
         return new_xyz

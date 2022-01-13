@@ -126,7 +126,7 @@ class Hexaplot:
                 x = [line[0][0], line[1][0]]
                 y = [line[0][1], line[1][1]]
                 z = [line[0][2], line[1][2]]
-                self.last_line_list.append(self.ax.plot(x, y, z, c=self.line_color , linewidth=2))
+                self.last_line_list.append(self.ax.plot(x, y, z, c=self.line_color , linewidth=4))
                 self.last_scatter_list.append(self.ax.scatter(x[0], y[0], z[0], c=self.dot_color))
                 self.last_scatter_list.append(self.ax.scatter(x[1], y[1], z[1], c=self.dot_color))
 
@@ -150,6 +150,7 @@ def calcDiagonal(polgyon1, polygon2, steps):
 
 
 def plotStart(height_top, height_bot,step):
+    height_bot *= 100
     height = height_top * 100
     hex_coord = [[0.160,0.087],[0.160, -0.087],[0, -0.1615],[-0.160,-0.087],[-0.160, 0.087],[0, 0.1615]]
     hex_off_coord = [[0.033, 0.032],[0.033, -0.032],[0, -0.0445],[-0.033, -0.032],[-0.033, 0.032],[0, 0.0445]]
@@ -185,16 +186,16 @@ def plotStart(height_top, height_bot,step):
         hp.ax.add_patch(circle)
         art3d.pathpatch_2d_to_3d(circle, z=-height, zdir="z")
 
+    if cn.robot['plot_trio']:
+        groupA = Polygon((hex_coord[0], hex_coord[2], hex_coord[4]), alpha=0.2)
+        groupB = Polygon((hex_coord[1], hex_coord[3], hex_coord[5]), alpha=0.2)
+        groups = [groupA, groupB]
+        groupA.set_color("blue")
+        groupB.set_color("yellow")
 
-    groupA = Polygon((hex_coord[0], hex_coord[2], hex_coord[4]), alpha=0.2)
-    groupB = Polygon((hex_coord[1], hex_coord[3], hex_coord[5]), alpha=0.2)
-    groups = [groupA, groupB]
-    groupA.set_color("blue")
-    groupB.set_color("yellow")
-
-    for group in groups:
-        hp.ax.add_patch(group)
-        art3d.pathpatch_2d_to_3d(group, z=-height, zdir="z")
+        for group in groups:
+            hp.ax.add_patch(group)
+            art3d.pathpatch_2d_to_3d(group, z=-height, zdir="z")
 
 
     diag_polys = calcDiagonal(hex_off_coord,hex_str_coord,step)
@@ -204,15 +205,15 @@ def plotStart(height_top, height_bot,step):
         polygons.append(Polygon(items))
 
     off = Polygon(hex_str_coord)
-    off.set_color("black")
+    off.set_color("blue")
     hp.ax.add_patch(off)
     art3d.pathpatch_2d_to_3d(off, z=-3.8, zdir="z")
 
     z = -3.8
-    diff = height - height_bot * 100
+    diff = height - height_bot
     counter = 1
     for polygon in polygons:
-        polygon.set_color("black")
+        polygon.set_color("blue")
         polygon.set_linewidth(1)
         hp.ax.add_patch(polygon)
         art3d.pathpatch_2d_to_3d(polygon, z=z, zdir="z")
