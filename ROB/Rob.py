@@ -17,8 +17,7 @@ import numpy as np
 
 # -------------------------Py Scripts-------------------------<
 import ROB.HexaplotSender as hxpS
-import LEG.LegwM          as Leg
-import ROB.Rob            as Rob
+import LEG.Leg          as Leg
 import ZMQ.server         as server
 import ROB.config         as cn
 
@@ -51,31 +50,31 @@ class Robot:
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
 
         # Leg 1
-        self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'], cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'])
+        self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'], cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'],[True, False, False])
         """ Beinobjekt für das Bein vorne rechts. """
 
         # Leg 2
-        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'])
+        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'],[True, False, False])
         """ Beinobjekt für das Bein vorne links. """
 
 
         # Leg 3
-        self.leg_m_l = Leg.Leg(cn.leg_m_l['measures'], cn.leg_m_l['offset'], cn.leg_m_l['rotation'], cn.leg_m_l['motorId'], cn.leg_m_l['angle'], cn.leg_m_l['startup'])
+        self.leg_m_l = Leg.Leg(cn.leg_m_l['measures'], cn.leg_m_l['offset'], cn.leg_m_l['rotation'], cn.leg_m_l['motorId'], cn.leg_m_l['angle'], cn.leg_m_l['startup'],[True, False, False])
         """ Beinobjekt für das Bein mitte links. """
 
 
         # leg 4
-        self.leg_h_l = Leg.Leg(cn.leg_h_l['measures'], cn.leg_h_l['offset'], cn.leg_h_l['rotation'], cn.leg_h_l['motorId'], cn.leg_h_l['angle'], cn.leg_h_l['startup'])
+        self.leg_h_l = Leg.Leg(cn.leg_h_l['measures'], cn.leg_h_l['offset'], cn.leg_h_l['rotation'], cn.leg_h_l['motorId'], cn.leg_h_l['angle'], cn.leg_h_l['startup'],[True, True, False])
         """ Beinobjekt für das Bein hinten links. """
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'])
+        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'],[True, True, False])
         """ Beinobjekt für das Bein hinten rechts. """
 
 
         # Leg 6
-        self.leg_m_r = Leg.Leg(cn.leg_m_r['measures'], cn.leg_m_r['offset'], cn.leg_m_r['rotation'], cn.leg_m_r['motorId'], cn.leg_m_r['angle'], cn.leg_m_r['startup'])
+        self.leg_m_r = Leg.Leg(cn.leg_m_r['measures'], cn.leg_m_r['offset'], cn.leg_m_r['rotation'], cn.leg_m_r['motorId'], cn.leg_m_r['angle'], cn.leg_m_r['startup'],[True, False, True])
         """ Beinobjekt für das Bein mitte rechts. """
 
 
@@ -105,12 +104,16 @@ class Robot:
         """ Geschwindigkeit mit der sich der Roboter bewegen soll. (Defaultgeschwindigkeit = 0.4) """
         self.radius         = cn.robot['radius']
         """ Radius vom Arbeitsbereich eines Beines. (Defaultradius = 5cm) """
-        if self.simulation:
-            lines = []
-            for legs in self.all_legs:
-                for i in range(1, 4):
-                    lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
-            self.sender.send_points(lines)
+        print(self.all_legs)
+
+        # if self.simulation:
+        #     lines = []
+        #     for legs in self.all_legs:
+        #         legs.setPosition(legs.getJointPosition(4))
+        #         for i in range(1, 4):
+        #             print(i)
+        #             lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
+        #     self.sender.send_points(lines)
         #TODO
         # - Geschwindigkeit an Servo
         # - (Arbeitsradius experimentell bestimmen)
@@ -126,11 +129,11 @@ class Robot:
         for legs in self.group_a:
             print("Offset: ",legs.getOffset())
             legs.setPosition(legs.getOffset()+[1])
-            print("POS: ",legs.getPosition())
+            # print("POS: ",legs.getPosition())
         for legs in self.group_b:
             print("Offset: ",legs.getOffset()[:-1]+[-self.height_bot,1])
             legs.setPosition(legs.getOffset()[:-1]+[-self.height_bot,1])
-            print("POS: ",legs.getPosition())
+            # print("POS: ",legs.getPosition())
         if self.simulation:
             # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
             #                          [self.leg_v_l.getPosition()[:-1], self.leg_v_l.getJointPosition(0)[:-1]],
@@ -165,10 +168,10 @@ class Robot:
                     print("1",self.traj[0])
                     self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height_bot)
                     print("2",self.traj[0])
-                    # for legs in self.all_legs:
-                    #    legs.motors[0].setSpeedValue(40)
-                    #    legs.motors[1].setSpeedValue(40)
-                    #    legs.motors[2].setSpeedValue(40)
+                    for legs in self.all_legs:
+                        legs.motors[0].setSpeedValue(40)
+                        legs.motors[1].setSpeedValue(40)
+                        legs.motors[2].setSpeedValue(40)
                     self.traj = self.set_direction(self.traj, angle)
                     print("3",self.traj[0])
                     if self.debug:
@@ -284,5 +287,4 @@ class Robot:
 if __name__ == "__main__":
     rob = Robot()
     # rob.test()
-    rob.iterate()
-
+    # rob.iterate()

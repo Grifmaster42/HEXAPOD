@@ -21,57 +21,57 @@ robot = dict(
 
 
 # --------------------------LEG 1 V R------------------------------
-leg_v_r = dict(
+leg_h_l = dict(
     measures  = [0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [0.033, -0.032],
     rotation  = 0,
     motorId   = [14,16,18],
-    angle     = [math.pi/4,0,math.pi/2],
+    angle     = [-math.pi/4,0,math.pi/2],
     startup   = [0.160, -0.087, -robot['height_top']]
 )
 
 # --------------------------LEG 2 V L------------------------------
-leg_v_l = dict(
+leg_h_r = dict(
     measures  = [0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [0.033, 0.032],
     rotation  = 0,
     motorId   = [13,15,17],
-    angle     = [-math.pi/4,0,math.pi/2],
+    angle     = [math.pi/4,0,- math.pi/2],
     startup   = [0.160, 0.087, -robot['height_top']]
 )
 
 # --------------------------LEG 3 M L------------------------------
-leg_m_l = dict(
+leg_m_r = dict(
     measures  = [0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [0, 0.0445],
     rotation  = math.pi/2,
     motorId   = [7,9,11],
-    angle     = [0,0,math.pi/2],
+    angle     = [0,0,-math.pi/2],
     startup   = [0, 0.1615, -robot['height_top']]
 )
 
 # --------------------------LEG 4 H L------------------------------
-leg_h_l = dict(
+leg_v_r = dict(
     measures  = [0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [-0.033, 0.032],
     rotation  = math.pi,
     motorId   = [1,3,5],
-    angle     = [math.pi/4,0,math.pi/2],
+    angle     = [-math.pi/4,0,math.pi/2],
     startup   = [-0.160, 0.087, -robot['height_top']]
 )
 
 # --------------------------LEG 5 H R------------------------------
-leg_h_r = dict(
+leg_v_l = dict(
     measures  = [0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [-0.033, -0.032],
     rotation  = math.pi,
     motorId   = [2,4,6],
-    angle     = [-math.pi/4,0,math.pi/2],
+    angle     = [math.pi/4, 0,-math.pi/2],
     startup   = [-0.160, -0.087, -robot['height_top']]
 )
 
 # --------------------------LEG 6 M R------------------------------
-leg_m_r = dict(
+leg_m_l = dict(
     measures  = [0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset    = [0, -0.0445],
     rotation  = -math.pi/2,
