@@ -8,10 +8,11 @@ class Leg:
     # r -> Rotationswinkel (in rad)
     # m -> Motorobjekte
     # n -> Nullwinkel der Motoren
-    def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0]):
+    def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0],start=[0,0,0]):
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
         self.offset = [b[0], b[1]]
         self.rotation = r
+        self.start = start
 
         self.lc = self.a[2]
         self.lcSquare = math.pow(self.lc, 2)
@@ -56,20 +57,31 @@ class Leg:
             beta = (h1 + h2) - math.pi
         else:
             beta = (math.pi - h2) + h1
-        return (alpha, beta, gamma)
+        return [alpha, beta, gamma]
 
 # Hilfsmethoden
     def baseCStoLegCS(self, pos=[0, 0, 0, 1]):
         noServoOffset = np.subtract(pos, self.servoOffset)
+        noServoOffset = np.subtract(noServoOffset, self.offset+[0,0])
         H = np.array([
-            [math.cos(-self.rotation), -math.sin(-self.rotation), 0, -self.offset[0]],
-            [math.sin(-self.rotation), math.cos(-self.rotation), 0, -self.offset[1]],
+            [math.cos(-self.rotation), -math.sin(-self.rotation), 0,0],
+            [math.sin(-self.rotation), math.cos(-self.rotation), 0,0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
-        pos = np.dot(H, noServoOffset)
+        # H = np.array([
+        #     [math.cos(-self.rotation), -math.sin(-self.rotation), 0, -self.offset[0]],
+        #     [math.sin(-self.rotation), math.cos(-self.rotation), 0,  -self.offset[1]],
+        #     [0, 0, 1, 0],
+        #     [0, 0, 0, 1]])
+        pos = np.dot(H, np.transpose(noServoOffset))
         return pos
 
 #Methoden für die ROB Gruppe
+
+    # Gibt die Offset Fußposition im Base-KS an
+    def getOffset(self):
+        return self.start
+
     #Gibt die Fussposition im Base-KS an
     def getPosition(self):
         H = np.array([
@@ -109,24 +121,21 @@ class Leg:
             [0, 0, 0, 1]])
         Hp = np.dot(H, pos)
         # return np.add(Hp, self.servoOffset)
-        return Hp
+        return Hp.tolist()
     
     #Gibt die aktuellen(!!!) Winkel der Gelenke an
     def getMotorAngles(self):
-        return [self.motors[0].getCurrentJointAngle(), self.motors[1].getCurrentJointAngle(), self.motors[2].getCurrentJointAngle()]
-
-    @staticmethod
-    def convert(pos, add=False):
-        if add:
-            return [pos[0], pos[1], pos[2], 1]
-        else:
-            return pos[:-1]
+        return [self.motors[0].getCurrentJointAngle(),
+                self.motors[1].getCurrentJointAngle(),
+                self.motors[2].getCurrentJointAngle()]
 
 #Zu Testzwecken im Plotter
     def getPosCreateAi(self, a, alpha, d, theta):
         return np.array([
-            [math.cos(theta), -math.sin(theta)*math.cos(alpha), math.sin(theta)*math.sin(alpha), a*math.cos(theta)],
-            [math.sin(theta), math.cos(theta)*math.cos(alpha), -math.cos(theta)*math.sin(alpha), a*math.sin(theta)],
+            [math.cos(theta), -math.sin(theta) * math.cos(alpha), math.sin(theta) * math.sin(alpha),
+             a * math.cos(theta)],
+            [math.sin(theta), math.cos(theta) * math.cos(alpha), -math.cos(theta) * math.sin(alpha),
+             a * math.sin(theta)],
             [0, math.sin(alpha), math.cos(alpha), d],
             [0, 0, 0, 1]])
 

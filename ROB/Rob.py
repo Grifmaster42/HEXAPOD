@@ -124,12 +124,12 @@ class Robot:
         Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Clienten verarbeitet.
         """
         for legs in self.group_a:
-            print("Offset: ",legs.getOffset()[:-1]+[1])
-            legs.setPosition(legs.getOffset()[:-1]+[1])
+            print("Offset: ",legs.getOffset())
+            legs.setPosition(legs.getOffset()+[1])
             print("POS: ",legs.getPosition())
         for legs in self.group_b:
-            print("Offset: ",legs.getOffset()[:-2]+[-self.height_bot,1])
-            legs.setPosition(legs.getOffset()[:-2]+[-self.height_bot,1])
+            print("Offset: ",legs.getOffset()[:-1]+[-self.height_bot,1])
+            legs.setPosition(legs.getOffset()[:-1]+[-self.height_bot,1])
             print("POS: ",legs.getPosition())
         if self.simulation:
             # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
@@ -187,10 +187,9 @@ class Robot:
 
             stemmpunkt = int(stemmpunkt)
             for legs in self.group_a:
-                print(self.go_to(legs.getOffset()[:-1],self.traj[schwingpunkt])+[1])
-                legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[schwingpunkt])+[1])
+                legs.setPosition(self.go_to(legs.getOffset(),self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
-                legs.setPosition(self.go_to(legs.getOffset()[:-1],self.traj[stemmpunkt])+[1])
+                legs.setPosition(self.go_to(legs.getOffset(),self.traj[stemmpunkt])+[1])
             if self.simulation:
                 # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
                 #                          [self.leg_v_l.getPosition()[:-1], self.leg_v_l.getJointPosition(0)[:-1]],

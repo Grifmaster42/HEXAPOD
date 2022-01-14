@@ -42,7 +42,6 @@ class Leg:
         return pos
 
     def invKinAlphaJoint(self, pos=[0, 0, 0, 1]):
-
         alpha = math.atan2(pos[1], pos[0])
         footPos = np.array(pos)
         A1 = np.array([
@@ -83,7 +82,7 @@ class Leg:
 
     # Gibt die Offset Fußposition im Base-KS an
     def getOffset(self):
-        return self.offset_f + [1]
+        return self.offset_f
 
     # Gibt die Fussposition im Base-KS an
     def getPosition(self):
@@ -132,13 +131,6 @@ class Leg:
     # def getMotorAngles(self):
     #    return [self.motors[0].getCurrentJointAngle(), self.motors[1].getCurrentJointAngle(),
     #            self.motors[2].getCurrentJointAngle()]
-
-    @staticmethod
-    def convert(pos, add=False):
-        if add:
-            return [pos[0], pos[1], pos[2], 1]
-        else:
-            return pos[:-1]
 
     # Zu Testzwecken im Plotter
     def getPosCreateAi(self, a, alpha, d, theta):
