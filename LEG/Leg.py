@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 from DRIVE.jointdrive_edit import *
 class Leg:
@@ -30,13 +32,18 @@ class Leg:
         servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
         servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
         servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
+
+
         self.motors = [servoA, servoB, servoC]
+
+        for motor in self.motors:
+            motor.setSpeedValue([10])
+
         self.motors[0].setDesiredJointAngle([0])
         self.motors[1].setDesiredJointAngle([0])
         self.motors[2].setDesiredJointAngle([0])
 
-        for motor in self.motors:
-            motor.setSpeedValue([10])
+
 
 # Vorgegebene Methoden
     def forKinAlphaJoint(self, alpha, beta, gamma):

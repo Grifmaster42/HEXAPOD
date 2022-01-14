@@ -69,7 +69,7 @@ class Robot:
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'],[True, True, False])
+        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'],[True, True, True])
         """ Beinobjekt für das Bein hinten rechts. """
 
 
@@ -272,7 +272,7 @@ class Robot:
     @staticmethod
     def go_to(offset,xyz):
         new_xyz = cp.deepcopy(offset)
-        for i in range(0,len(offset)):
+        for i in range(0, len(offset)):
             new_xyz[i] += xyz[i]
         return new_xyz
 
@@ -287,4 +287,7 @@ class Robot:
 if __name__ == "__main__":
     rob = Robot()
     # rob.test()
-    # rob.iterate()
+    rob.iterate()
+    sleep(2)
+    # print("Motor 1 Leg VL:", math.degrees(rob.leg_v_l.motors[1].getCurrentJointAngle()))
+    # print("Motor 1 Leg VR:", math.degrees(rob.leg_v_r.motors[1].getCurrentJointAngle()))

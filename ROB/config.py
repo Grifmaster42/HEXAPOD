@@ -66,7 +66,7 @@ leg_v_l = dict(
     offset    = [-0.033, -0.032],
     rotation  = math.pi,
     motorId   = [2,4,6],
-    angle     = [math.pi/4, 0,-math.pi/2],
+    angle     = [math.pi/4, math.radians(20),-math.pi/2],
     startup   = [-0.160, -0.087, -robot['height_top']]
 )
 
