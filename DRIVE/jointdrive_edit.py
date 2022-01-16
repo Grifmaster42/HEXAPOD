@@ -83,6 +83,11 @@ class JointDrive(ServoAx12a):
         else:
             angle[0] = self._ANGLE_RADIAN_ZERO - angle[0] + self.aOffset  # counterclockwise
 
+        if angle[0] < 0:
+            angle[0] = 0
+        elif angle[0] > math.pi * 5/6:
+            angle[0] = math.pi * 5/6
+
         angle[0] = self.__convertAngleToTicks(angle[0])  # convert angle(rad) to motor ticks
 
         ServoAx12a.setGoalPosition(self, angle, trigger)
