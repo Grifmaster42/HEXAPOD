@@ -1,7 +1,7 @@
 import time
 
 import numpy as np
-from DRIVE_ROT.jointdrive_EL import *
+from DRIVE.jointdrive_edit import *
 class Leg:
 
     # a -> Laengenmaße (in m)

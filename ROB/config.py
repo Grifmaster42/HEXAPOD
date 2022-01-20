@@ -27,7 +27,8 @@ leg_h_l = dict(
     rotation  = 0,
     motorId   = [14,16,18],
     angle     = [0,0,math.pi/2],
-    startup   = [0.160, -0.087, -robot['height_top']]
+    startup   = [0.160, -0.087, -robot['height_top']],
+    ccw       = [True, False, True]
 )
 
 # --------------------------LEG 2 V L------------------------------
@@ -37,7 +38,8 @@ leg_h_r = dict(
     rotation  = 0,
     motorId   = [13,15,17],
     angle     = [0,0,math.pi/2],
-    startup   = [0.160, 0.087, -robot['height_top']]
+    startup   = [0.160, 0.087, -robot['height_top']],
+    ccw       = [True, True, False]
 )
 
 # --------------------------LEG 3 M L------------------------------
@@ -47,7 +49,8 @@ leg_m_r = dict(
     rotation  = math.pi/2,
     motorId   = [7,9,11],
     angle     = [0,0,math.pi/2],
-    startup   = [0, 0.1615, -robot['height_top']]
+    startup   = [0, 0.1615, -robot['height_top']],
+    ccw       = [True, True, False]
 )
 
 # --------------------------LEG 4 H L------------------------------
@@ -57,7 +60,8 @@ leg_v_r = dict(
     rotation  = math.pi,
     motorId   = [1,3,5],
     angle     = [0,0,math.pi/2],
-    startup   = [-0.160, 0.087, -robot['height_top']]
+    startup   = [-0.160, 0.087, -robot['height_top']],
+    ccw       = [True, False, True]
 )
 
 # --------------------------LEG 5 H R------------------------------
@@ -67,7 +71,8 @@ leg_v_l = dict(
     rotation  = math.pi,
     motorId   = [2,4,6],
     angle     = [0, 0,math.pi/2],
-    startup   = [-0.160, -0.087, -robot['height_top']]
+    startup   = [-0.160, -0.087, -robot['height_top']],
+    ccw       = [True, True, False]
 )
 
 # --------------------------LEG 6 M R------------------------------
@@ -77,5 +82,6 @@ leg_m_l = dict(
     rotation  = -math.pi/2,
     motorId   = [8,10,12],
     angle     = [0,0,math.pi/2],
-    startup   = [0, -0.1615, -robot['height_top']]
+    startup   = [0, -0.1615, -robot['height_top']],
+    ccw       = [True, False, True]
 )

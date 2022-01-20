@@ -1,5 +1,5 @@
 import numpy as np
-from DRIVE.jointdrive_edit import *
+#from DRIVE.jointdrive_edit import *
 import math
 
 class Leg:
@@ -28,10 +28,10 @@ class Leg:
 
         self.turnOffset = [n[0], n[1], n[2]]
         self.goalAngle = [0,0,0]
-        servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
-        servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
-        servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=True, aMax=math.radians(120),  aMin=math.radians(-120))
-        self.motors = [servoA, servoB, servoC]
+        # servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
+        # servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
+        # servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=True, aMax=math.radians(120),  aMin=math.radians(-120))
+        # self.motors = [servoA, servoB, servoC]
 
     # Vorgegebene Methoden
     def forKinAlphaJoint(self, alpha, beta, gamma):
@@ -101,9 +101,9 @@ class Leg:
 
         goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
         self.goalAngle = goalAngle
-        self.motors[0].setDesiredJointAngle([goalAngle[0]])
-        self.motors[1].setDesiredJointAngle([goalAngle[1]])
-        self.motors[2].setDesiredJointAngle([goalAngle[2]])
+        # self.motors[0].setDesiredJointAngle([goalAngle[0]])
+        # self.motors[1].setDesiredJointAngle([goalAngle[1]])
+        # self.motors[2].setDesiredJointAngle([goalAngle[2]])
         return goalAngle
 
     # Gibt die Gelenkposition im Base-KS an. In pos werden die Plotter-Methoden unten verwendet (z.B. getPosAlpha())
