@@ -190,8 +190,10 @@ class Robot:
 
             stemmpunkt = int(stemmpunkt)
             for legs in self.group_a:
+                print(self.go_to(legs.getOffset(),self.traj[schwingpunkt])+[1])
                 legs.setPosition(self.go_to(legs.getOffset(),self.traj[schwingpunkt])+[1])
             for legs in self.group_b:
+                print(self.go_to(legs.getOffset(),self.traj[stemmpunkt])+[1])
                 legs.setPosition(self.go_to(legs.getOffset(),self.traj[stemmpunkt])+[1])
             if self.simulation:
                 # self.sender.send_points([[self.leg_v_r.getPosition()[:-1], self.leg_v_r.getJointPosition(0)[:-1]],
