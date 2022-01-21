@@ -54,7 +54,7 @@ class Robot:
         """ Beinobjekt für das Bein vorne rechts. """
 
         # Leg 2
-        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'],[True, False, False])
+        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'],[True, False, True])
         """ Beinobjekt für das Bein vorne links. """
 
 
@@ -168,10 +168,10 @@ class Robot:
                     print("1",self.traj[0])
                     self.traj = self.calc_tray_list(self.traj, length=self.radius, height=self.height_bot)
                     print("2",self.traj[0])
-                    for legs in self.all_legs:
-                        legs.motors[0].setSpeedValue(40)
-                        legs.motors[1].setSpeedValue(40)
-                        legs.motors[2].setSpeedValue(40)
+                    # for legs in self.all_legs:
+                    #     legs.motors[0].setSpeedValue(40)
+                    #     legs.motors[1].setSpeedValue(40)
+                    #     legs.motors[2].setSpeedValue(40)
                     self.traj = self.set_direction(self.traj, angle)
                     print("3",self.traj[0])
                     if self.debug:
@@ -287,7 +287,7 @@ class Robot:
 if __name__ == "__main__":
     rob = Robot()
     # rob.test()
-    rob.iterate()
     sleep(2)
+    rob.iterate()
     # print("Motor 1 Leg VL:", math.degrees(rob.leg_v_l.motors[1].getCurrentJointAngle()))
     # print("Motor 1 Leg VR:", math.degrees(rob.leg_v_r.motors[1].getCurrentJointAngle()))

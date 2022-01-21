@@ -1,3 +1,5 @@
+import math
+
 from DRIVE.servo_ax12a_edit import *
 
 
@@ -82,6 +84,11 @@ class JointDrive(ServoAx12a):
             angle[0] = self._ANGLE_RADIAN_ZERO + angle[0] + self.aOffset  # clockwise
         else:
             angle[0] = self._ANGLE_RADIAN_ZERO - angle[0] + self.aOffset  # counterclockwise
+
+        if angle[0] < 0:
+            angle[0] = 0
+        elif angle[0] > math.radians(300):
+            angle[0] = math.radians(300)
 
         angle[0] = self.__convertAngleToTicks(angle[0])  # convert angle(rad) to motor ticks
 

@@ -42,7 +42,7 @@ class Leg:
         self.motors[0].setDesiredJointAngle([0])
         self.motors[1].setDesiredJointAngle([0])
         self.motors[2].setDesiredJointAngle([0])
-
+        time.sleep(0.02)
 
 
 # Vorgegebene Methoden
