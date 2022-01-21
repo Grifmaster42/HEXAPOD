@@ -50,11 +50,11 @@ class Robot:
         """ Objekt der Klasse Server zum Starten des Servers auf dem Roboter. """
 
         # Leg 1
-        self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'], cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'],[True, False, False])
+        self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'], cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'],[False, False, False])
         """ Beinobjekt für das Bein vorne rechts. """
 
         # Leg 2
-        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'],[True, False, True])
+        self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'], cn.leg_v_l['motorId'], cn.leg_v_l['angle'], cn.leg_v_l['startup'],[False, False, True])
         """ Beinobjekt für das Bein vorne links. """
 
 
@@ -64,12 +64,12 @@ class Robot:
 
 
         # leg 4
-        self.leg_h_l = Leg.Leg(cn.leg_h_l['measures'], cn.leg_h_l['offset'], cn.leg_h_l['rotation'], cn.leg_h_l['motorId'], cn.leg_h_l['angle'], cn.leg_h_l['startup'],[True, True, False])
+        self.leg_h_l = Leg.Leg(cn.leg_h_l['measures'], cn.leg_h_l['offset'], cn.leg_h_l['rotation'], cn.leg_h_l['motorId'], cn.leg_h_l['angle'], cn.leg_h_l['startup'],[False, True, False])
         """ Beinobjekt für das Bein hinten links. """
 
 
         # leg 5
-        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'],[True, True, True])
+        self.leg_h_r = Leg.Leg(cn.leg_h_r['measures'], cn.leg_h_r['offset'], cn.leg_h_r['rotation'], cn.leg_h_r['motorId'], cn.leg_h_r['angle'], cn.leg_h_r['startup'],[False, True, True])
         """ Beinobjekt für das Bein hinten rechts. """
 
 
