@@ -1,7 +1,8 @@
 import time
 
 import numpy as np
-from DRIVE.jointdrive_edit import *
+# from DRIVE.jointdrive_edit import *
+from DRIVE_RED.jointdrive_EL import *
 class Leg:
 
     # a -> Laengenmaße (in m)
@@ -29,19 +30,28 @@ class Leg:
         self.lastPosition = [0, 0, 0]
 
         self.turnOffset = [n[0], n[1], n[2]]
-        servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
-        servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
-        servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
+        # servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
+        # servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
+        # servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=False, aMax=math.radians(120), aMin=math.radians(-120))
 
+        servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], aMax=math.radians(120), aMin=math.radians(-120))
+        servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], aMax=math.radians(120), aMin=math.radians(-120))
+        servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], aMax=math.radians(120), aMin=math.radians(-120))
 
         self.motors = [servoA, servoB, servoC]
 
         for motor in self.motors:
-            motor.setSpeedValue([10])
+            #motor.setSpeedValue([10])
+            motor.setSpeedValue(10)
 
-        self.motors[0].setDesiredJointAngle([0])
-        self.motors[1].setDesiredJointAngle([0])
-        self.motors[2].setDesiredJointAngle([0])
+        # self.motors[0].setDesiredJointAngle([0])
+        # self.motors[1].setDesiredJointAngle([0])
+        # self.motors[2].setDesiredJointAngle([0])
+
+        self.motors[0].setDesiredJointAngle(0)
+        self.motors[1].setDesiredJointAngle(0)
+        self.motors[2].setDesiredJointAngle(0)
+
         time.sleep(0.02)
 
 
@@ -112,9 +122,14 @@ class Leg:
     #Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1]):
         self.goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
-        self.motors[0].setDesiredJointAngle([self.goalAngle[0]])
-        self.motors[1].setDesiredJointAngle([self.goalAngle[1]])
-        self.motors[2].setDesiredJointAngle([self.goalAngle[2]])
+        # self.motors[0].setDesiredJointAngle([self.goalAngle[0]])
+        # self.motors[1].setDesiredJointAngle([self.goalAngle[1]])
+        # self.motors[2].setDesiredJointAngle([self.goalAngle[2]])
+
+        self.motors[0].setDesiredJointAngle(self.goalAngle[0])
+        self.motors[1].setDesiredJointAngle(self.goalAngle[1])
+        self.motors[2].setDesiredJointAngle(self.goalAngle[2])
+
         return self.goalAngle
 
     #Gibt die Gelenkposition im Base-KS an. Mit point wird die Gelenkposition gewaehlt
