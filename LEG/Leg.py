@@ -31,10 +31,13 @@ class Leg:
         # für Geschwindigkeitsberechnung (wird nicht verwendet)
         self.lastPosition = [0, 0, 0]
 
-        self.turnOffset = [n[0], n[1], n[2]]
-        servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], aMax=math.radians(120), aMin=math.radians(-120))
-        servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], aMax=math.radians(120), aMin=math.radians(-120))
-        servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], aMax=math.radians(120), aMin=math.radians(-120))
+        # self.turnOffset = [n[0], n[1], n[2]]
+        beta_offset = math.atan2(self.a[4], self.a[3])
+        gamma_offset = math.pi / 2 - math.atan2(self.a[5], self.a[6]) - beta_offset
+
+        servoA = JointDrive(m[0], aOffset=0, ccw=ccw[0], aMax=math.radians(120), aMin=math.radians(-120))
+        servoB = JointDrive(m[1], aOffset=beta_offset, ccw=ccw[1], aMax=math.radians(120), aMin=math.radians(-120))
+        servoC = JointDrive(m[2], aOffset=gamma_offset, ccw=ccw[2], aMax=math.radians(120), aMin=math.radians(-120))
 
         self.motors = [servoA, servoB, servoC]
 
