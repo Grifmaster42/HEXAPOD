@@ -2,8 +2,10 @@ import itertools
 import os
 import serial
 
-if os.name=='nt':
+if os.name == 'nt':
     import winreg
+
+
     def enumerate_serial_ports():
         """ Uses the Win32 registry to return an
             iterator of serial (COM) ports
@@ -22,7 +24,10 @@ if os.name=='nt':
             except EnvironmentError:
                 break
 
+
     import re
+
+
     def full_port_name(portname):
         """ Given a port-name (of the form COM7,
             COM12, CNCA0, etc.) returns a full
@@ -34,9 +39,9 @@ if os.name=='nt':
             return portname
         return '\\\\.\\' + portname
 
+
     def serialPortList():
         return [full_port_name(port) for port in list(enumerate_serial_ports())]
 else:
     def serialPortList():
         return [port[0] for port in list(serial.tools.list_ports.comports())]
-

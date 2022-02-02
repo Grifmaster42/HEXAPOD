@@ -1,6 +1,7 @@
 import numpy as np
-#from DRIVE.jointdrive_edit import *
+# from DRIVE.jointdrive_edit import *
 import math
+
 
 class Leg:
 
@@ -9,7 +10,8 @@ class Leg:
     # r -> Rotationswinkel (in rad)
     # m -> Motorobjekte
     # n -> Nullwinkel der Motoren
-    def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0], offset_f=[0, 0, 0], ccw=[True, True, True]):
+    def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0], offset_f=[0, 0, 0],
+                 ccw=[True, True, True]):
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
         self.offset = [b[0], b[1]]
         self.rotation = r
@@ -27,7 +29,7 @@ class Leg:
         self.lastPosition = [0, 0, 0]
 
         self.turnOffset = [n[0], n[1], n[2]]
-        self.goalAngle = [0,0,0]
+        self.goalAngle = [0, 0, 0]
         # servoA = JointDrive(m[0], aOffset=self.turnOffset[0], ccw=ccw[0], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
         # servoB = JointDrive(m[1], aOffset=self.turnOffset[1], ccw=ccw[1], prt=True, aMax=math.radians(120), aMin=math.radians(-120))
         # servoC = JointDrive(m[2], aOffset=self.turnOffset[2], ccw=ccw[2], prt=True, aMax=math.radians(120),  aMin=math.radians(-120))
@@ -64,10 +66,10 @@ class Leg:
     # Hilfsmethoden
     def baseCStoLegCS(self, pos=[0, 0, 0, 1]):
         noServoOffset = np.subtract(pos, self.servoOffset)
-        noServoOffset = np.subtract(noServoOffset, self.offset+[0,0])
+        noServoOffset = np.subtract(noServoOffset, self.offset + [0, 0])
         H = np.array([
-            [math.cos(-self.rotation), -math.sin(-self.rotation), 0,0],
-            [math.sin(-self.rotation), math.cos(-self.rotation), 0,0],
+            [math.cos(-self.rotation), -math.sin(-self.rotation), 0, 0],
+            [math.sin(-self.rotation), math.cos(-self.rotation), 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]])
         # H = np.array([
@@ -129,8 +131,8 @@ class Leg:
 
     # Gibt die aktuellen(!!!) Winkel der Gelenke an
     def getMotorAngles(self):
-       return [self.goalAngle[0], self.goalAngle[1],
-               self.goalAngle[2]]
+        return [self.goalAngle[0], self.goalAngle[1],
+                self.goalAngle[2]]
 
     # Zu Testzwecken im Plotter
     def getPosCreateAi(self, a, alpha, d, theta):
