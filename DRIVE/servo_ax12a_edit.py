@@ -40,7 +40,7 @@ class ServoAx12a(Dynamixel):
     _SPEED_UNIT = (1023 / 113.5)  # 0.111 rpm per tick
     _SPEED_MAX_TICKS = 1023  # 1023
     _SPEED_MAX_RPM = 113.5 #1023 * 0.111  # 1023 * 0.111 = 113.5 rpm
-    _SPEED_MIN_RPM = 0.111
+    _SPEED_MIN_RPM = 0
 
     # Definition of public class attributes
     # ----------------------------------------------------------------------
@@ -147,3 +147,6 @@ class ServoAx12a(Dynamixel):
     # Set goal position and moving speed via Sync Write
     def setGoalPositionMovingSpeed(self, data, trigger=False):
         Dynamixel._writeNWordPkt(self, self.__GOAL_POSITION, data, trigger)
+
+    def machA(self, id):
+        Dynamixel._action(self, id)

@@ -153,7 +153,7 @@ class JointDrive(ServoAx12a):
         elif data[0] < self.aMin:
             data[0] = self.aMin
 
-        data[0] = math.radians(150) + (data[0] if self.ccw else -data[0])
+        data[0] = math.radians(150) + (data[0] if self.ccw else - data[0])
 
         # if not self.ccw:
         #     data[0] = self._ANGLE_RADIAN_ZERO + data[0] + self.aOffset  # clockwise
@@ -172,5 +172,8 @@ class JointDrive(ServoAx12a):
 
 
 
-
+    def mach(self, ID = None):
+        if ID is None:
+            ID = self.id
+        ServoAx12a.machA(self, ID)
 

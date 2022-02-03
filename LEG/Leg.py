@@ -38,8 +38,8 @@ class Leg:
         gamma_offset = math.pi / 2 - math.atan2(self.a[5], self.a[6]) - beta_offset
 
         servoA = JointDrive(m[0], aOffset=0, ccw=ccw[0], aMax=math.radians(120), aMin=math.radians(-120))
-        servoB = JointDrive(m[1], aOffset=beta_offset, ccw=ccw[1], aMax=math.radians(120), aMin=math.radians(-120))
-        servoC = JointDrive(m[2], aOffset=gamma_offset, ccw=ccw[2], aMax=math.radians(120), aMin=math.radians(-120))
+        servoB = JointDrive(m[1], aOffset=beta_offset, ccw=ccw[1], aMax=math.radians(84), aMin=math.radians(-90))
+        servoC = JointDrive(m[2], aOffset=gamma_offset, ccw=ccw[2], aMax=math.radians(60), aMin=math.radians(-90))
 
         self.motors = [servoA, servoB, servoC]
 
@@ -116,11 +116,14 @@ class Leg:
         return pos
 
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
-    def setPosition(self, pos=[0, 0, 0, 1]):
+    def setPosition(self, pos=[0, 0, 0, 1], speed = 10):
         self.goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
-        self.motors[0].setDesiredJointAngle([self.goalAngle[0]])
-        self.motors[1].setDesiredJointAngle([self.goalAngle[1]])
-        self.motors[2].setDesiredJointAngle([self.goalAngle[2]])
+        maxVal = max(self.goalAngle)
+        #for i in range(3):
+        #    self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/maxVal*self.goalAngle[i]], trigger= True)
+        self.motors[0].setGoalPosSpeed([self.goalAngle[0], speed], trigger=True)
+        self.motors[1].setGoalPosSpeed([self.goalAngle[1], speed], trigger=True)
+        self.motors[2].setGoalPosSpeed([self.goalAngle[2], speed], trigger=True)
         return self.goalAngle
 
     # Gibt die Gelenkposition im Base-KS an. Mit point wird die Gelenkposition gewaehlt
@@ -149,6 +152,7 @@ class Leg:
         return [self.goalAngle[0],
                 self.goalAngle[1],
                 self.goalAngle[2]]
+
 
     # Zu Testzwecken im Plotter
     def getPosCreateAi(self, a, alpha, d, theta):
