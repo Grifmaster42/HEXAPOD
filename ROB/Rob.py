@@ -17,7 +17,7 @@ import numpy as np
 
 # -------------------------Py Scripts-------------------------<
 import ROB.HexaplotSender as hxpS
-import LEG.LegwM as Leg
+import LEG.Leg as Leg
 import ZMQ.server as server
 import ROB.config as cn
 
@@ -54,6 +54,8 @@ class Robot:
         self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'],
                                cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'], cn.leg_v_r['ccw'])
         """ Beinobjekt für das Bein vorne rechts. """
+        print(self.leg_v_r)
+
 
         # Leg 2
         self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'],

@@ -73,7 +73,8 @@ class JointDrive(ServoAx12a):
     # angle -> in radian,
     def setDesiredJointAngle(self, angle, trigger=False):
 
-        angle[0] += self.aOffset
+
+        angle[0] = self.aOffset + angle[0]
 
         if angle[0] > self.aMax:
             angle[0] = self.aMax
@@ -101,7 +102,6 @@ class JointDrive(ServoAx12a):
     # returns angle in radian
     def getCurrentJointAngle(self):
         CurrentAngle = ServoAx12a.getPresentPosition(self)
-
         if len(CurrentAngle) == 1:
             word = CurrentAngle[0]  # single data byte
         else:
@@ -117,7 +117,7 @@ class JointDrive(ServoAx12a):
 
     # Set speed value of servo
     # speed -> angle speed in rpm
-    def setSpeedValue(self, speed = 0, trigger=False):
+    def setSpeedValue(self, speed = [0], trigger=False):
         if speed[0] > ServoAx12a._SPEED_MAX_RPM:
             speed[0] = ServoAx12a._SPEED_MAX_RPM
         elif speed[0] < 0:

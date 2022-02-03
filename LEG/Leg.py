@@ -13,6 +13,8 @@ class Leg:
     # n -> Nullwinkel der Motoren
     def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0], start=[0, 0, 0],
                  ccw=[True, True, True]):
+
+        print("erreivht")
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
         self.offset = [b[0], b[1]]
         self.rotation = r
@@ -42,11 +44,11 @@ class Leg:
         self.motors = [servoA, servoB, servoC]
 
         for motor in self.motors:
-            motor.setSpeedValue(10)
+            motor.setSpeedValue([10])
 
-        self.motors[0].setDesiredJointAngle(0)
-        self.motors[1].setDesiredJointAngle(0)
-        self.motors[2].setDesiredJointAngle(0)
+        self.motors[0].setDesiredJointAngle([0])
+        self.motors[1].setDesiredJointAngle([0])
+        self.motors[2].setDesiredJointAngle([0])
         time.sleep(0.02)
 
     # Vorgegebene Methoden
@@ -116,9 +118,9 @@ class Leg:
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1]):
         self.goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
-        self.motors[0].setDesiredJointAngle(self.goalAngle[0])
-        self.motors[1].setDesiredJointAngle(self.goalAngle[1])
-        self.motors[2].setDesiredJointAngle(self.goalAngle[2])
+        self.motors[0].setDesiredJointAngle([self.goalAngle[0]])
+        self.motors[1].setDesiredJointAngle([self.goalAngle[1]])
+        self.motors[2].setDesiredJointAngle([self.goalAngle[2]])
         return self.goalAngle
 
     # Gibt die Gelenkposition im Base-KS an. Mit point wird die Gelenkposition gewaehlt

@@ -118,6 +118,7 @@ class Dynamixel:
     # __pktWriteNByte = [255, 255, 0, 0, 3, 0, 0]
     # e.g. data = [200,300,1020]
     def _writeNBytePkt(self, register, data, trigger):
+
         nBytes = len(data)
         pktWriteNByte = copy.deepcopy(self.__pktWriteNByte)
         pktWriteNByte[2] = self.id
@@ -152,6 +153,7 @@ class Dynamixel:
         return self.__writeReadDataPkt(register, dtLen)
 
     def _writeNWordPkt(self, register, data, trigger):
+
         nBytes = len(data) * 2
         pktWriteNWord = copy.deepcopy(self.__pktWriteWord)  # copy base pkt
         pktWriteNWord[2] = self.id
