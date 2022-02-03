@@ -14,6 +14,8 @@ class Leg:
     def __init__(self, a=[1, 1, 1, 1, 1, 1, 1], b=[0, 0], r=0, m=[0, 0, 0], n=[0, 0, 0], start=[0, 0, 0],
                  ccw=[True, True, True]):
 
+        self.scaled_speed = cn.robot['test']
+
         print("erreivht")
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
         self.offset = [b[0], b[1]]
@@ -118,12 +120,14 @@ class Leg:
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1], speed = 10):
         self.goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
-        maxVal = max(self.goalAngle)
-        #for i in range(3):
-        #    self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/maxVal*self.goalAngle[i]], trigger= True)
-        self.motors[0].setGoalPosSpeed([self.goalAngle[0], speed], trigger=True)
-        self.motors[1].setGoalPosSpeed([self.goalAngle[1], speed], trigger=True)
-        self.motors[2].setGoalPosSpeed([self.goalAngle[2], speed], trigger=True)
+        max_val = max(self.goalAngle)
+        for i in range(3):
+            if self.scaled_speed:
+                self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/max_val*self.goalAngle[i]], trigger= True)
+            else:
+                self.motors[i].setGoalPosSpeed([self.goalAngle[i], speed], trigger=True)
+        # self.motors[1].setGoalPosSpeed([self.goalAngle[1], speed], trigger=True)
+        # self.motors[2].setGoalPosSpeed([self.goalAngle[2], speed], trigger=True)
         return self.goalAngle
 
     # Gibt die Gelenkposition im Base-KS an. Mit point wird die Gelenkposition gewaehlt
