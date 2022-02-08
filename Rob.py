@@ -186,7 +186,7 @@ class Robot:
                 stemmpunkt = stemmpunkt - len(self.traj)
 
             stemmpunkt = int(stemmpunkt)
-            print(speed)
+            #print(speed)
             for legs in self.group_a:
                 legs.setPosition(self.go_to(legs.getOffset(), self.traj[schwingpunkt]) + [1], speed)
             for legs in self.group_b:

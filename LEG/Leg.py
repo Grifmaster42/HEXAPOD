@@ -43,18 +43,18 @@ class Leg:
         gamma_offset = math.pi / 2 - math.atan2(self.a[5], self.a[6]) - beta_offset
 
         servoA = JointDrive(m[0], aOffset=0, ccw=ccw[0], aMax=math.radians(120), aMin=math.radians(-120))
-        servoB = JointDrive(m[1], aOffset=beta_offset, ccw=ccw[1], aMax=math.radians(84), aMin=math.radians(-90))
-        servoC = JointDrive(m[2], aOffset=gamma_offset, ccw=ccw[2], aMax=math.radians(60), aMin=math.radians(-90))
+        servoB = JointDrive(m[1], aOffset=beta_offset, ccw=ccw[1], aMax=math.radians(110), aMin=math.radians(-110))
+        servoC = JointDrive(m[2], aOffset=gamma_offset, ccw=ccw[2], aMax=math.radians(110), aMin=math.radians(-110))
 
         self.motors = [servoA, servoB, servoC]
 
         for motor in self.motors:
             motor.setSpeedValue([10])
 
-        self.motors[0].setDesiredJointAngle([0])
-        self.motors[1].setDesiredJointAngle([0])
-        self.motors[2].setDesiredJointAngle([0])
-        time.sleep(0.02)
+        #self.motors[0].setDesiredJointAngle([0])
+        #self.motors[1].setDesiredJointAngle([0])
+        #self.motors[2].setDesiredJointAngle([0])
+        #time.sleep(0.02)
 
     # Vorgegebene Methoden
     def forKinAlphaJoint(self, alpha, beta, gamma):
