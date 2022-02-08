@@ -64,7 +64,7 @@ leg_h_l = dict(
     motorId=[1, 3, 5],
     angle=[0, 0, math.pi/2],
     startup=[-0.175, 0.075, -robot['height_top']],
-    ccw=[True, False, True]
+    ccw=[True, True, False]
 )
 
 # --------------------------LEG 5 H R------------------------------
@@ -75,7 +75,7 @@ leg_h_r = dict(
     motorId=[2, 4, 6],
     angle=[0, 0, math.pi/2],
     startup=[-0.175, -0.075, -robot['height_top']],
-    ccw=[True, True, False]
+    ccw=[True, False, True]
 )
 
 # --------------------------LEG 6 M R------------------------------
