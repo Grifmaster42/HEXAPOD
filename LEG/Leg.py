@@ -126,6 +126,7 @@ class Leg:
         self.diff_angle = [0,0,0]
         for i in range(3):
             self.diff_angle[i] = abs(self.goalAngle[i] - self.old_angle[i])
+            self.old_angle[i] = self.goalAngle[i]
         max_val = max(self.diff_angle)
         for i in range(3):
             if self.scaled_speed:
