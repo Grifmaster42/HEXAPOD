@@ -6,7 +6,7 @@ import math
 
 # -------------------------Roboter---------------------------
 robot = dict(
-    test=True,
+    test=False,
     debug=False,
     simulation=True,
     height_top=0.13,
