@@ -31,7 +31,7 @@ leg_v_r = dict(
     motorId=[13, 15, 17],
     angle=[0, 0, math.pi/2],
     startup=[0.175, 0.075, -robot['height_top']],
-    ccw=[True, True, False]
+    ccw=[True, False, True]
 )
 
 # --------------------------LEG 2 V L------------------------------
