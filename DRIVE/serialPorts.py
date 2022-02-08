@@ -1,6 +1,7 @@
 import itertools
 import os
 import serial
+import serial.tools.list_ports
 
 if os.name == 'nt':
     import winreg
