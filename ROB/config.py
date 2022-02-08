@@ -9,17 +9,17 @@ robot = dict(
     test=True,
     debug=False,
     simulation=False,
-    height_top=0.13,
+    height_top=0.15,
     height_bot=0.10,
-    cycle_time=0.4,
-    speed=60,
-    radius=0.04,
+    cycle_time=0.15,
+    speed=100,
+    radius=0.048,
     triangle=[[0.5, 0, 0.5], [1, 0, 0], [0.5, 0, 0], [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-0.5, 0, 0.5], [0, 0, 1]],
     height_t=0.04,
-    height_r=0.06,
-    height_f=0.02,
+    height_r=0.07,
+    height_f=0.03,
     rectangle=[[1, 0, 1], [1, 0, 0], [0.5, 0, 0], [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-1, 0, 1], [0, 0, 1]],
-    fast=[[1, 0, 0.6], [1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]],
+    fast=[[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]],
     plot_trio=False
 )
 
@@ -52,7 +52,7 @@ leg_m_l = dict(
     rotation=math.pi / 2,
     motorId=[7, 9, 11],
     angle=[0, 0, math.pi/2],
-    startup=[0, 0.1615, -robot['height_top']],
+    startup=[0, 0.185, -robot['height_top']],
     ccw=[True, True, False]
 )
 

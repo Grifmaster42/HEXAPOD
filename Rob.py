@@ -156,7 +156,7 @@ class Robot:
                     if pace_type == "Fast":
                         schwingpunkt = 0
                 if n_commands != 0:
-                    speed, angle, pace_type = n_commands[0], n_commands[1], n_commands[2]
+                    speed, angle, pace_type = n_commands[0], n_commands[1], n_commands[2].decode('UTF-8')
                     if speed == 0:
                         continue
                     if pace_type == "Rechteck":

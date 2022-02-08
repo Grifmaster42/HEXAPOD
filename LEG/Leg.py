@@ -129,7 +129,7 @@ class Leg:
             self.old_angle[i] = self.goalAngle[i]
         max_val = max(self.diff_angle)
         for i in range(3):
-            if self.scaled_speed:
+            if self.scaled_speed and max_val!=0:
                 self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/max_val*self.diff_angle[i]], trigger= True)
             else:
                 self.motors[i].setGoalPosSpeed([self.goalAngle[i], speed], trigger=True)
