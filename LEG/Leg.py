@@ -17,7 +17,7 @@ class Leg:
 
         self.scaled_speed = cn.robot['test']
 
-        self.old_angle[3] = {0,0,0}
+        self.old_angle = [0,0,0]
 
         print("erreivht")
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
@@ -123,12 +123,13 @@ class Leg:
     # Setzt die Fussspitze auf die gegebene Position aus dem Base-KS
     def setPosition(self, pos=[0, 0, 0, 1], speed = 10):
         self.goalAngle = self.invKinAlphaJoint(self.baseCStoLegCS(pos))
-        #dif_angle[3]
-        max_val = max(self.goalAngle)
+        self.diff_angle = [0,0,0]
+        for i in range(3):
+            self.diff_angle[i] = abs(self.goalAngle[i] - self.old_angle[i])
+        max_val = max(self.diff_angle)
         for i in range(3):
             if self.scaled_speed:
-                # das sind generelle winkel und nicht die differenz zum aktuellen winkel
-                self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/max_val*self.goalAngle[i]], trigger= True)
+                self.motors[i].setGoalPosSpeed([self.goalAngle[i],speed/max_val*self.diff_angle[i]], trigger= True)
             else:
                 self.motors[i].setGoalPosSpeed([self.goalAngle[i], speed], trigger=True)
         # self.motors[1].setGoalPosSpeed([self.goalAngle[1], speed], trigger=True)
