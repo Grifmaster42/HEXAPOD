@@ -19,23 +19,12 @@ robot = dict(
     height_r=0.06,
     height_f=0.02,
     rectangle=[[1, 0, 1], [1, 0, 0], [0.5, 0, 0], [0, 0, 0], [-0.5, 0, 0], [-1, 0, 0], [-1, 0, 1], [0, 0, 1]],
-    fast=[[1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]],
+    fast=[[1, 0, 0.6], [1, 0, 0.5], [0, 0, 0.5], [-1, 0, 0.5], [-1, 0, 0.5], [0, 0, 0.8]],
     plot_trio=False
 )
 
 # --------------------------LEG 1 V R------------------------------
-leg_h_l = dict(
-    measures=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
-    offset=[0.033, -0.032],
-    rotation=0,
-    motorId=[14, 16, 18],
-    angle=[0, 0, math.pi/2],
-    startup=[0.175, -0.075, -robot['height_top']],
-    ccw=[True, True, False]
-)
-
-# --------------------------LEG 2 V L------------------------------
-leg_h_r = dict(
+leg_v_r = dict(
     measures=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset=[0.033, 0.032],
     rotation=0,
@@ -45,19 +34,30 @@ leg_h_r = dict(
     ccw=[True, True, False]
 )
 
-# --------------------------LEG 3 M L------------------------------
-leg_m_r = dict(
-    measures=[0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
-    offset=[0, 0.0445],
-    rotation=math.pi / 2,
-    motorId=[7, 9, 11],
+# --------------------------LEG 2 V L------------------------------
+leg_v_l = dict(
+    measures=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
+    offset=[0.033, -0.032],
+    rotation=0,
+    motorId=[14, 16, 18],
     angle=[0, 0, math.pi/2],
-    startup=[0, 0.185, -robot['height_top']],
+    startup=[0.175, -0.075, -robot['height_top']],
     ccw=[True, True, False]
 )
 
+# --------------------------LEG 3 M L------------------------------
+leg_m_l = dict(
+    measures=[0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
+    offset=[0, -0.0445],
+    rotation=-math.pi / 2,
+    motorId=[8, 10, 12],
+    angle=[0, 0, math.pi/2],
+    startup=[0, -0.1615, -robot['height_top']],
+    ccw=[True, False, True]
+)
+
 # --------------------------LEG 4 H L------------------------------
-leg_v_r = dict(
+leg_h_l = dict(
     measures=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset=[-0.033, 0.032],
     rotation=math.pi,
@@ -68,7 +68,7 @@ leg_v_r = dict(
 )
 
 # --------------------------LEG 5 H R------------------------------
-leg_v_l = dict(
+leg_h_r = dict(
     measures=[0.042, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
     offset=[-0.033, -0.032],
     rotation=math.pi,
@@ -79,12 +79,12 @@ leg_v_l = dict(
 )
 
 # --------------------------LEG 6 M R------------------------------
-leg_m_l = dict(
+leg_m_r = dict(
     measures=[0.032, 0.038, 0.049, 0.059, 0.021, 0.013, 0.092],
-    offset=[0, -0.0445],
-    rotation=-math.pi / 2,
-    motorId=[8, 10, 12],
+    offset=[0, 0.0445],
+    rotation=math.pi / 2,
+    motorId=[7, 9, 11],
     angle=[0, 0, math.pi/2],
-    startup=[0, -0.1615, -robot['height_top']],
-    ccw=[True, False, True]
+    startup=[0, 0.185, -robot['height_top']],
+    ccw=[True, True, False]
 )
