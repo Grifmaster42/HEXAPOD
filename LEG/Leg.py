@@ -19,7 +19,7 @@ class Leg:
 
         self.old_angle = [0,0,0]
 
-        print("erreivht")
+        print("erreicht")
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
         self.offset = [b[0], b[1]]
         self.rotation = r
