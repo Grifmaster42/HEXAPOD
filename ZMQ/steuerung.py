@@ -17,7 +17,8 @@ class Steuerung():
         # ZMQ Context erstellen, Socket erstellen und mit Server verbinden
         context = zmq.Context()
         self.socket = context.socket(zmq.PAIR)
-        self.socket.connect("tcp://127.0.0.1:"+self.__PORT)
+        self.socket.connect("tcp://10.134.31.4:" + self.__PORT)
+        #self.socket.connect("tcp://127.0.0.1:"+self.__PORT)
 
         # Thread zum empfangen der Daten erstellen und starten
         listen_thread = Thread(target=self.listen, args=(self.socket,))

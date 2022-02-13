@@ -3,6 +3,7 @@ import zmq
 import msgpack
 from threading import Thread
 
+
 class HexaplotReceiver:
 
     def __init__(self, ip="127.0.0.2", port=5555):
@@ -10,7 +11,7 @@ class HexaplotReceiver:
 
         context = zmq.Context()
         self.socket = context.socket(zmq.PAIR)
-        self.socket.bind("tcp://"+ip+":"+str(port))
+        self.socket.bind("tcp://" + ip + ":" + str(port))
 
         listen_thread = Thread(target=self.listen, args=(self.socket,))
         listen_thread.start()
@@ -24,6 +25,7 @@ class HexaplotReceiver:
 
     def getData(self):
         return self.data
+
 
 if __name__ == "__main__":
     hpr = HexaplotReceiver()
