@@ -1,355 +1,357 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>791</width>
-    <height>561</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>El Roboto del laufo</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QSlider" name="vsGeschwindigkeit">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>20</y>
-      <width>22</width>
-      <height>160</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lGeschwindigkeit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Geschwindigkeit: 0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lRichtung">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>180</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Richtung: 0</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="gbBetriebsmodi">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>10</y>
-      <width>151</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="title">
-     <string>Betriebsmodi</string>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QRadioButton" name="rbNormalBetrieb">
-       <property name="text">
-        <string>[Y] Normal-Betrieb </string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbHindernisBetrieb">
-       <property name="text">
-        <string>[B] PARKOUR </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbSchnellBetrieb">
-       <property name="text">
-        <string>[A] Fast as Fuck BOOII </string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QGroupBox" name="gbSteuerungsMenue">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>110</y>
-      <width>151</width>
-      <height>73</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="title">
-     <string>Steuerungsart</string>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QRadioButton" name="rbControllerSteuerung">
-       <property name="text">
-        <string>Controller-Steuerung</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbGUISteuerung">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>GUI-Steuerung</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QLabel" name="lBackground">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>831</width>
-      <height>611</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lInput">
-    <property name="geometry">
-     <rect>
-      <x>15</x>
-      <y>230</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Input-Messages</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lOutput">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>230</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Output-Messages</string>
-    </property>
-   </widget>
-   <widget class="QSplitter" name="splitter">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>260</y>
-      <width>771</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0, 0%);</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <widget class="QPlainTextEdit" name="pTEDialogfensterInput">
-     <property name="font">
-      <font>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(0, 0, 0, 25%);
-border-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string/>
-     </property>
-     <property name="backgroundVisible">
-      <bool>false</bool>
-     </property>
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>791</width>
+                <height>561</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>El Roboto del laufo</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true"/>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QSlider" name="vsGeschwindigkeit">
+                <property name="geometry">
+                    <rect>
+                        <x>130</x>
+                        <y>20</y>
+                        <width>22</width>
+                        <height>160</height>
+                    </rect>
+                </property>
+                <property name="minimum">
+                    <number>0</number>
+                </property>
+                <property name="maximum">
+                    <number>100</number>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                </property>
+            </widget>
+            <widget class="QLabel" name="lGeschwindigkeit">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>90</y>
+                        <width>121</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                    <string>Geschwindigkeit: 0</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="lRichtung">
+                <property name="geometry">
+                    <rect>
+                        <x>210</x>
+                        <y>180</y>
+                        <width>81</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                    <string>Richtung: 0</string>
+                </property>
+            </widget>
+            <widget class="QGroupBox" name="gbBetriebsmodi">
+                <property name="geometry">
+                    <rect>
+                        <x>630</x>
+                        <y>10</y>
+                        <width>151</width>
+                        <height>96</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="title">
+                    <string>Betriebsmodi</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <item>
+                        <widget class="QRadioButton" name="rbNormalBetrieb">
+                            <property name="text">
+                                <string>[Y] Normal-Betrieb</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QRadioButton" name="rbHindernisBetrieb">
+                            <property name="text">
+                                <string>[B] PARKOUR</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QRadioButton" name="rbSchnellBetrieb">
+                            <property name="text">
+                                <string>[A] Fast as Fuck BOOII</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QGroupBox" name="gbSteuerungsMenue">
+                <property name="geometry">
+                    <rect>
+                        <x>630</x>
+                        <y>110</y>
+                        <width>151</width>
+                        <height>73</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="title">
+                    <string>Steuerungsart</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                    <item>
+                        <widget class="QRadioButton" name="rbControllerSteuerung">
+                            <property name="text">
+                                <string>Controller-Steuerung</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QRadioButton" name="rbGUISteuerung">
+                            <property name="styleSheet">
+                                <string notr="true"/>
+                            </property>
+                            <property name="text">
+                                <string>GUI-Steuerung</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QLabel" name="lBackground">
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>831</width>
+                        <height>611</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="lInput">
+                <property name="geometry">
+                    <rect>
+                        <x>15</x>
+                        <y>230</y>
+                        <width>81</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                    <string>Input-Messages</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="lOutput">
+                <property name="geometry">
+                    <rect>
+                        <x>400</x>
+                        <y>230</y>
+                        <width>91</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                    <string>Output-Messages</string>
+                </property>
+            </widget>
+            <widget class="QSplitter" name="splitter">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>260</y>
+                        <width>771</width>
+                        <height>291</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0, 0, 0, 0%);</string>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                </property>
+                <widget class="QPlainTextEdit" name="pTEDialogfensterInput">
+                    <property name="font">
+                        <font>
+                            <pointsize>9</pointsize>
+                        </font>
+                    </property>
+                    <property name="styleSheet">
+                        <string notr="true">background-color: rgb(0, 0, 0, 25%);
+                            border-color: rgb(255, 255, 255);
+                            color: rgb(255, 255, 255);
+                        </string>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                    <property name="plainText">
+                        <string/>
+                    </property>
+                    <property name="backgroundVisible">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget class="QPlainTextEdit" name="pTEDialogfensterOutput">
+                    <property name="font">
+                        <font>
+                            <pointsize>9</pointsize>
+                        </font>
+                    </property>
+                    <property name="styleSheet">
+                        <string notr="true">border-color: rgb(255, 255, 255);
+                            color: rgb(255, 255, 255);
+                            background-color: rgb(0, 0, 0, 25%);
+                        </string>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                    <property name="plainText">
+                        <string/>
+                    </property>
+                    <property name="backgroundVisible">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+            </widget>
+            <widget class="QLabel" name="lSquirrel">
+                <property name="geometry">
+                    <rect>
+                        <x>130</x>
+                        <y>40</y>
+                        <width>498</width>
+                        <height>498</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QDial" name="dWinkel">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>20</y>
+                        <width>160</width>
+                        <height>160</height>
+                    </rect>
+                </property>
+                <property name="cursor">
+                    <cursorShape>ClosedHandCursor</cursorShape>
+                </property>
+                <property name="minimum">
+                    <number>-180</number>
+                </property>
+                <property name="maximum">
+                    <number>180</number>
+                </property>
+                <property name="pageStep">
+                    <number>0</number>
+                </property>
+                <property name="wrapping">
+                    <bool>true</bool>
+                </property>
+                <property name="notchTarget">
+                    <double>20.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pbStart">
+                <property name="geometry">
+                    <rect>
+                        <x>540</x>
+                        <y>20</y>
+                        <width>75</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Start</string>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pbReconnect">
+                <property name="geometry">
+                    <rect>
+                        <x>540</x>
+                        <y>50</y>
+                        <width>75</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Verbinden</string>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pbStop">
+                <property name="geometry">
+                    <rect>
+                        <x>540</x>
+                        <y>80</y>
+                        <width>75</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Stop</string>
+                </property>
+            </widget>
+            <zorder>lBackground</zorder>
+            <zorder>lSquirrel</zorder>
+            <zorder>vsGeschwindigkeit</zorder>
+            <zorder>lGeschwindigkeit</zorder>
+            <zorder>lRichtung</zorder>
+            <zorder>gbBetriebsmodi</zorder>
+            <zorder>gbSteuerungsMenue</zorder>
+            <zorder>lInput</zorder>
+            <zorder>lOutput</zorder>
+            <zorder>splitter</zorder>
+            <zorder>dWinkel</zorder>
+            <zorder>pbStart</zorder>
+            <zorder>pbReconnect</zorder>
+            <zorder>pbStop</zorder>
+        </widget>
     </widget>
-    <widget class="QPlainTextEdit" name="pTEDialogfensterOutput">
-     <property name="font">
-      <font>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0, 25%);</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string/>
-     </property>
-     <property name="backgroundVisible">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QLabel" name="lSquirrel">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>40</y>
-      <width>498</width>
-      <height>498</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QDial" name="dWinkel">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>20</y>
-      <width>160</width>
-      <height>160</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>ClosedHandCursor</cursorShape>
-    </property>
-    <property name="minimum">
-     <number>-180</number>
-    </property>
-    <property name="maximum">
-     <number>180</number>
-    </property>
-    <property name="pageStep">
-     <number>0</number>
-    </property>
-    <property name="wrapping">
-     <bool>true</bool>
-    </property>
-    <property name="notchTarget">
-     <double>20.000000000000000</double>
-    </property>
-    <property name="notchesVisible">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbStart">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>20</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbReconnect">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>50</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Verbinden</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbStop">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>80</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stop</string>
-    </property>
-   </widget>
-   <zorder>lBackground</zorder>
-   <zorder>lSquirrel</zorder>
-   <zorder>vsGeschwindigkeit</zorder>
-   <zorder>lGeschwindigkeit</zorder>
-   <zorder>lRichtung</zorder>
-   <zorder>gbBetriebsmodi</zorder>
-   <zorder>gbSteuerungsMenue</zorder>
-   <zorder>lInput</zorder>
-   <zorder>lOutput</zorder>
-   <zorder>splitter</zorder>
-   <zorder>dWinkel</zorder>
-   <zorder>pbStart</zorder>
-   <zorder>pbReconnect</zorder>
-   <zorder>pbStop</zorder>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+    <resources/>
+    <connections/>
 </ui>

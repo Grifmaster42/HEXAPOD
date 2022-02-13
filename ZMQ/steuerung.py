@@ -1,14 +1,12 @@
-import zmq
-import msgpack
 from threading import Thread
 
-
+import msgpack
+import zmq
 
 __name__ = "steuerung"
 
 
-class Steuerung():
-
+class Steuerung:
     __PORT = "6969"
 
     def __init__(self):
@@ -18,7 +16,7 @@ class Steuerung():
         context = zmq.Context()
         self.socket = context.socket(zmq.PAIR)
         self.socket.connect("tcp://10.134.31.4:" + self.__PORT)
-        #self.socket.connect("tcp://127.0.0.1:"+self.__PORT)
+        # self.socket.connect("tcp://127.0.0.1:"+self.__PORT)
 
         # Thread zum empfangen der Daten erstellen und starten
         listen_thread = Thread(target=self.listen, args=(self.socket,))
@@ -32,7 +30,6 @@ class Steuerung():
             try:
                 self.data = msgpack.unpackb(socket.recv())
             except zmq.ZMQError as error:
-                #print("Ein Fehler ist aufgetreten!\nError 404: \"Error not found!\"")
                 print("Receiven fehlgeschlagen: " + error)
 
     # def music(self):

@@ -1,11 +1,11 @@
-import sys
-import pygame
 from threading import Thread
+
+import pygame
 
 __name__ = "controller"
 
 
-class Controller():
+class Controller:
     # Listen mit Daten des Controllerzustandes
     axes_data = {}
     button_data = {}
@@ -57,8 +57,7 @@ class Controller():
         except BaseException as error:
             print(error)
             self.controller = None
-            # sys.exit()
-        # print(self.controller.get_name())
+
         # Thread zum auslesen der Controllerevents erstellen und starten
         self.listen_thread = Thread(target=self.listen, args=())
         self.listen_thread.start()
@@ -95,32 +94,23 @@ class Controller():
 
     def listen(self):
 
-        #print(self.controller.get_name())
+        # print(self.controller.get_name())
         while True:
             # durchgehend Events vom Controller empfangen und speichern
             while self.on:
-                #print(pygame.event.get())
                 for event in pygame.event.get():
                     # Stick und Trigger
                     if event.type == pygame.JOYAXISMOTION:
                         self.axes_data[event.axis] = round(event.value, self.round_figure)
-                        # print(event)
-                        #print(self.axes_data)
                     # Button drücken
                     elif event.type == pygame.JOYBUTTONDOWN:
                         self.button_data[event.button] = True
-                        # print(event)
-                        # print(self.button_data)
                     # Button wieder loslassen
                     elif event.type == pygame.JOYBUTTONUP:
                         self.button_data[event.button] = False
-                        # print(event)
-                        # print(self.button_data)
                     # Directionpad
                     elif event.type == pygame.JOYHATMOTION:
                         self.d_pad_data = event.value
-                        # print(event)
-                        # print(self.d_pad_data)
 
     # Getter mit teilweise überarbeitung der Werte des Controllers um mit den Werten arbeiten zu können
     def get_lx(self):
