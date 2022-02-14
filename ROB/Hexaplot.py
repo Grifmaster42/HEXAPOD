@@ -1,9 +1,8 @@
-# from threading import Thread
 import numpy as np
 import math
 
 from ROB.HexaplotReceiver import HexaplotReceiver
-import ROB.config as cn
+import ROB.Config as cn
 
 import matplotlib
 
@@ -127,25 +126,23 @@ class Hexaplot:
                 self.last_scatter_list.append(self.ax.scatter(x[0], y[0], z[0], c=self.dot_color))
                 self.last_scatter_list.append(self.ax.scatter(x[1], y[1], z[1], c=self.dot_color))
 
-
 def calcDiagonal(polgyon1, polygon2, steps):
     if len(polgyon1) != len(polygon2):
         print("ERROR Länge von beiden Listen muss übereinstimmen")
         return
 
+    liste = []
     diag = []
     for index in range(0, len(polgyon1)):
         diag.append(np.subtract(polgyon1[index], polygon2[index]).tolist())
 
-    list = []
     for i in range(1, steps):
         temp = []
         for index in range(0, len(polgyon1)):
             temp.append(np.add(polygon2[index], (np.array(diag[index]) * (1 / steps * i)).tolist()).tolist())
-        list.append(temp)
+        liste.append(temp)
 
-    return list
-
+    return liste
 
 def plotStart(height_top, height_bot, step):
     height_bot *= 100
@@ -160,9 +157,7 @@ def plotStart(height_top, height_bot, step):
             coord[1] *= 100
     hp = Hexaplot(height, hex_coord, ax_limits=[20, 20, 15], dot_color='red', line_color='black', show_lines=True)
 
-    # [[3,1.5],[1,5],[3,8.5],[7,1.5],[9,5],[7,8.5]]
 
-    # Draw a circle on the x=0 'wall'
     l1 = Circle(hex_coord[0], cn.robot['radius'] * 100, alpha=0.3)
     l2 = Circle(hex_coord[1], cn.robot['radius'] * 100, alpha=0.3)
     l3 = Circle(hex_coord[2], cn.robot['radius'] * 100, alpha=0.3)
@@ -183,16 +178,6 @@ def plotStart(height_top, height_bot, step):
         hp.ax.add_patch(circle)
         art3d.pathpatch_2d_to_3d(circle, z=-height, zdir="z")
 
-    if cn.robot['plot_trio']:
-        groupA = Polygon((hex_coord[0], hex_coord[2], hex_coord[4]), alpha=0.2)
-        groupB = Polygon((hex_coord[1], hex_coord[3], hex_coord[5]), alpha=0.2)
-        groups = [groupA, groupB]
-        groupA.set_color("blue")
-        groupB.set_color("yellow")
-
-        for group in groups:
-            hp.ax.add_patch(group)
-            art3d.pathpatch_2d_to_3d(group, z=-height, zdir="z")
 
     diag_polys = calcDiagonal(hex_off_coord, hex_str_coord, step)
 
@@ -206,7 +191,7 @@ def plotStart(height_top, height_bot, step):
     art3d.pathpatch_2d_to_3d(off, z=-3.8, zdir="z")
 
     z = -3.8
-    diff = height - height_bot
+    diff = 3.8
     counter = 1
     for polygon in polygons:
         polygon.set_color("blue")
@@ -216,20 +201,8 @@ def plotStart(height_top, height_bot, step):
         z += diff / step * counter
         counter *= 1
 
-    # polygons = []
-    # for i in range(1,10):
-    #     polygons.append(Polygon(hex_off_coord))
-
-    # z = -0.8
-    # for polygon in polygons:
-    #     polygon.set_color("red")
-    #     polygon.set_linewidth(2)
-    #     hp.ax.add_patch(polygon)
-    #     art3d.pathpatch_2d_to_3d(polygon, z=z, zdir="z")
-    #     z += 0.2
 
     hp.show_plot()
-
 
 if __name__ == "__main__":
     plotStart(cn.robot['height_top'], cn.robot['height_bot'], 20)
