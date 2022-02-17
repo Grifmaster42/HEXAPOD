@@ -30,7 +30,7 @@ class Steuerung:
             try:
                 self.data = msgpack.unpackb(socket.recv())
             except zmq.ZMQError as error:
-                print("Receiven fehlgeschlagen: " + error)
+                print("Receiven fehlgeschlagen: " + str(error))
 
     # def music(self):
     #     pygame.mixer.init()
@@ -48,4 +48,4 @@ class Steuerung:
         try:
             self.socket.send(msgpack.packb(data))
         except zmq.ZMQError as error:
-            print("Senden fehlgeschlagen: " + error)
+            print("Senden fehlgeschlagen: " + str(error))

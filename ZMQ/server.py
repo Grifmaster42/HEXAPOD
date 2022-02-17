@@ -6,7 +6,7 @@ import zmq
 __name__ = "server"
 
 
-class Server():
+class Server:
     __PORT = "6969"
 
     def __init__(self):
@@ -27,7 +27,7 @@ class Server():
             try:
                 self.data = msgpack.unpackb(socket.recv())
             except zmq.ZMQError as error:
-                print("Receiven fehlgeschlagen: " + error)
+                print("Receiven fehlgeschlagen: " + str(error))
 
     def get_data(self):
         # Daten zurückgeben
@@ -38,4 +38,4 @@ class Server():
         try:
             self.socket.send(msgpack.packb(data))
         except zmq.ZMQError as error:
-            print("Senden fehlgeschlagen: " + error)
+            print("Senden fehlgeschlagen: " + str(error))
