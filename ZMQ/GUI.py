@@ -1,10 +1,12 @@
+import math
 import sys
+
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtGui import *
+
 import controller
 import steuerung
 import worker
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtGui import *
-import math
 
 __name__ = '__main__'
 
@@ -110,12 +112,14 @@ class Ui(QtWidgets.QMainWindow):
 
     def communication(self):
         # Senden und empfangen der Daten
-        self.send_data = [abs(round(self.get_speed() / 100, self.round_figure)), math.radians(self.get_direction()), self.get_mode()]
+        self.send_data = [abs(round(self.get_speed() / 100, self.round_figure)), math.radians(self.get_direction()),
+                          self.get_mode()]
         self.st.send_data(self.send_data)
         self.receive_data = self.st.get_data()
 
         # Gesendete und empfangene Daten anzeigen
-        com = "Laenge: " + str(self.send_data[0]) + "\tWinkel: " + str(self.send_data[1]) + "\tMode: " + self.send_data[2]
+        com = "Laenge: " + str(self.send_data[0]) + "\tWinkel: " + str(self.send_data[1]) + "\tMode: " + self.send_data[
+            2]
         self.num_msg_out = self.add_msg_to_output_field(com, self.num_msg_out)
         self.num_msg_in = self.add_msg_to_input_field(str(self.receive_data), self.num_msg_in)
 

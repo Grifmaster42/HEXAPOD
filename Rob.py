@@ -20,7 +20,7 @@ import DRIVE.jointdrive_edit as jd
 import ROB.HexaplotSender as hxpS
 import LEG.Leg as Leg
 import ZMQ.server as server
-import ROB.config as cn
+import ROB.Config as cn
 
 
 # Für das Senden der Fußpunkte an die Hexapod-Simulation
@@ -57,7 +57,6 @@ class Robot:
         self.leg_v_r = Leg.Leg(cn.leg_v_r['measures'], cn.leg_v_r['offset'], cn.leg_v_r['rotation'],
                                cn.leg_v_r['motorId'], cn.leg_v_r['angle'], cn.leg_v_r['startup'], cn.leg_v_r['ccw'])
         """ Beinobjekt für das Bein vorne rechts. """
-        print(self.leg_v_r)
 
         # Leg 2
         self.leg_v_l = Leg.Leg(cn.leg_v_l['measures'], cn.leg_v_l['offset'], cn.leg_v_l['rotation'],
@@ -105,7 +104,7 @@ class Robot:
 
         self.cycle_time = cn.robot['cycle_time']
         """ Zykluszeit für die Abfrage auf neue Befehle. (Defaultwert = 400ms) """
-        self.speed_max = cn.robot['speed']
+        self.speed_max = cn.robot['speed_max']
         """ Geschwindigkeit mit der sich der Roboter bewegen soll. (Defaultgeschwindigkeit = 0.4) """
         self.radius = cn.robot['radius']
         """ Radius vom Arbeitsbereich eines Beines. (Defaultradius = 5cm) """
@@ -117,9 +116,6 @@ class Robot:
                     lines.append([legs.getJointPosition(i)[:-1], legs.getJointPosition(i + 1)[:-1]])
             self.sender.send_points(lines)
 
-        # TODO
-        # - Geschwindigkeit an Servo
-        # - (Arbeitsradius experimentell bestimmen)
 
     # -------------------------Methods-----------------------------
     def iterate(self):
@@ -127,16 +123,12 @@ class Robot:
         iterate() -> None
 
         Die Hauptmethode, welche auf dem Roboter gestartet wird.
-        Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Clienten verarbeitet.
+        Diese hat eine Endlosschleife, welche die fortlaufenden Befehle des Benutzers verarbeitet.
         """
         for legs in self.group_a:
-            print(legs.getOffset()[:-1] + [-self.height_top, 1])
             legs.setPosition(legs.getOffset()[:-1] + [-self.height_top, 1])
-            print(legs.getPosition())
         for legs in self.group_b:
-            print(legs.getOffset()[:-1] + [-self.height_bot, 1])
             legs.setPosition(legs.getOffset()[:-1] + [-self.height_bot, 1])
-            print(legs.getPosition())
         self.broadcast.mach()
         if self.simulation:
             lines = []
@@ -186,7 +178,6 @@ class Robot:
                 stemmpunkt = stemmpunkt - len(self.traj)
 
             stemmpunkt = int(stemmpunkt)
-            #print(speed)
             for legs in self.group_a:
                 legs.setPosition(self.go_to(legs.getOffset(), self.traj[schwingpunkt]) + [1], speed)
             for legs in self.group_b:
@@ -210,7 +201,7 @@ class Robot:
     @staticmethod
     def calc_tray_list(org_traj, offset=None, length=1.0, height=1.0):
         """
-        calc_tray_list(traj: List[List[x: float,y: float,z: float]], coord: tuple(x,y,z), length: float, height: float) -> None
+        calc_tray_list(org_traj: List[List[x: float,y: float,z: float]], offset: tuple(x,y,z), length: float, height: float) -> List()
 
         Eine Methode zum berechnen einer neuen Trajektorienliste, mit einer anderen Höhe, Länge oder Startposition.
         """
@@ -227,7 +218,7 @@ class Robot:
     @staticmethod
     def rotation_z(teta):
         """
-        calc_tray_line(teta: float) -> numpy.matrix()
+        rotation_z(teta: float) -> numpy.matrix()
 
         Eine statische Methode zum berechnen einer Rotationsmatrix um die Z-Achse, mit dem Winkel Teta
         """
@@ -238,7 +229,7 @@ class Robot:
 
     def set_direction(self, org_traj, angle):
         """
-        set_direction(Org_traj: List(), angle: float) -> numpy.matrix()
+        set_direction(org_traj: List(), angle: float) -> numpy.matrix()
 
         Eine Methode zum berechnen der neuen Trajektorienliste, verschoben um die z-Achse mit der Variable Angle.
         """
@@ -249,7 +240,7 @@ class Robot:
 
     def get_new_commands(self, command=None):
         """
-        get_new_command(command: List[tuple(x: float,y: float),speed: float,pacetype: str]) -> List[tuple(x: float,y: float),speed: float,pacetype: str]
+        get_new_commands(command: List[tuple(x: float,y: float),speed: float,pacetype: str]) -> List[tuple(x: float,y: float),speed: float,pacetype: str]
 
         Eine Methode zum Abfangen der Daten vom Clienten oder auch zum Eingeben eigener Befehle über die Methode
         """
@@ -260,7 +251,7 @@ class Robot:
             typ = type(command)
             print(command)
             print(typ)
-        return command  # [Geschwindigkeit, Winkel,Gangart]
+        return command
 
     @staticmethod
     def go_to(offset, xyz):

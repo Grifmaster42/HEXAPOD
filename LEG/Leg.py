@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 from DRIVE.jointdrive_edit import *
-import ROB.config as cn
+import ROB.Config as cn
 
 
 class Leg:

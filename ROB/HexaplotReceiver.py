@@ -20,10 +20,11 @@ class HexaplotReceiver:
         while True:
             try:
                 self.data = msgpack.unpackb(socket.recv())
-            except:
+            except E as N:
+                print(N)
                 pass
 
-    def getData(self):
+    def get_data(self):
         return self.data
 
 

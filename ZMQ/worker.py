@@ -1,5 +1,6 @@
-from PyQt5.QtCore import *
 import time
+
+from PyQt5.QtCore import *
 
 __name__ = "worker"
 
